@@ -7,7 +7,8 @@ export default function Navbar() {
       <Link to="/login">Login</Link> |{" "}
       <Link to="/dashboard">Dashboard</Link> |{" "}
       <Link to="/mentores">Mentores</Link> |{" "}
-      <Link to="/perfil-mentor">Meu Perfil</Link>
+      <Link to="/perfil-mentor">Perfil Mentor</Link> |{" "}
+      <Link to="/perfil-aluno">Perfil Aluno</Link> |{" "}
     </nav>
   );
 }

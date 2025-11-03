@@ -1,23 +1,21 @@
 import { useState } from "react";
 import "../styles/PerfilMentor.css";
 
-export default function PerfilMentor() {
+export default function PerfilAluno() {
   // Simulação de dados do mentor logado
   const [nome, setNome] = useState("Ana Souza");
   const [emailContato, setEmailContato] = useState("ana.souza@unesp.br");
-  const [horarios, setHorarios] = useState("Seg e Qua - 14h às 16h, Sex - 10h às 12h");
-  const [local, setLocal] = useState("Lab 10");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(
-      `Perfil de mentor atualizado:\nNome: ${nome}\nEmail: ${emailContato}\nHorários: ${horarios}\nLocal: ${local}`
+      `Perfil de mentor atualizado:\nNome: ${nome}\nEmail: ${emailContato}`
     );
   };
 
   return (
     <div className="perfil-container">
-      <h1>Perfil de Mentor</h1>
+      <h1>Perfil de Aluno</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Nome:
@@ -37,25 +35,6 @@ export default function PerfilMentor() {
             pattern=".+@unesp\.br"
             title="Somente emails @unesp.br são permitidos"
             required
-          />
-        </label>
-
-        <label>
-          Horários Disponíveis:
-          <textarea
-            value={horarios}
-            onChange={(e) => setHorarios(e.target.value)}
-            placeholder="Ex: Seg e Qua - 14h às 16h"
-          />
-        </label>
-
-        <label>
-          Local de Atendimento:
-          <input
-            type="text"
-            value={local}
-            onChange={(e) => setLocal(e.target.value)}
-            placeholder="Ex: Lab 10"
           />
         </label>
 

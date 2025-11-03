@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Mentores from "./pages/Mentoria";
 import PerfilMentor from "./pages/PerfilMentor";
+import PerfilAluno from "./pages/PerfilAluno";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/mentores" element={<Mentores />} />
         <Route path="/perfil-mentor" element={<PerfilMentor />} />
+        <Route path="/perfil-aluno" element={<PerfilAluno />} />
       </Routes>
     </>
   );
