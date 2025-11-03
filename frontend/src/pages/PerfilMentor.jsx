@@ -36,7 +36,7 @@ export default function PerfilMentor() {
             onChange={(e) => setEmailContato(e.target.value)}
             pattern=".+@unesp\.br"
             title="Somente emails @unesp.br são permitidos"
-            required
+            disabled
           />
         </label>
 

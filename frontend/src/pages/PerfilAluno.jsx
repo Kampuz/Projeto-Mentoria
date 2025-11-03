@@ -34,7 +34,7 @@ export default function PerfilAluno() {
             onChange={(e) => setEmailContato(e.target.value)}
             pattern=".+@unesp\.br"
             title="Somente emails @unesp.br são permitidos"
-            required
+            disabled
           />
         </label>
 
