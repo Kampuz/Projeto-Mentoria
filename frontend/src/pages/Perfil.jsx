@@ -6,10 +6,11 @@ export default function Perfil() {
   const [nome, setNome] = useState("Miguel Campos");
   const [email, setEmail] = useState("miguel@unesp.br");
   const [curso, setCurso] = useState("Ciência da Computação");
+  const [disciplina, setDisciplina] = useState("Ciência de Dados");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Perfil atualizado:\nNome: ${nome}\nEmail: ${email}\nCurso: ${curso}`);
+    alert(`Perfil atualizado:\nNome: ${nome}\nEmail: ${email}\nCurso: ${curso}\nDisciplina: ${disciplina}`);
   };
 
   return (
@@ -39,6 +40,14 @@ export default function Perfil() {
             type="text"
             value={curso}
             onChange={(e) => setCurso(e.target.value)}
+          />
+        </label>
+        <label>
+          Disciplina:
+          <input
+            type="text"
+            value={disciplina}
+            onChange={(e) => setDisciplina(e.target.value)}
           />
         </label>
         <button type="submit">Salvar</button>
