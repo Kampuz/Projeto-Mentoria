@@ -1,18 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/PerfilMentor.css";
 
-export default function PerfilMentor() {
+export default function PerfilMentor({ mentorId }) {
   // Simulação de dados do mentor logado
-  const [nome, setNome] = useState("Ana Souza");
-  const [emailContato, setEmailContato] = useState("ana.souza@unesp.br");
-  const [horarios, setHorarios] = useState("Seg e Qua - 14h às 16h, Sex - 10h às 12h");
-  const [local, setLocal] = useState("Lab 10");
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [horario, setHorario] = useState("");
+  const [local, setLocal] = useState("");
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/mentores`)
+      .then((res) => res.json())
+      .then((data) => {
+        const mentor = data.find((m) => m.id === mentorId);
+        if (mentor) {
+          setNome(mentor.nome);
+          setEmail(mentor.email);
+          setHorario(mentor.horario_disponivel);
+          setLocal(mentor.local);
+        }
+      });
+  }, [mentorId]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(
-      `Perfil de mentor atualizado:\nNome: ${nome}\nEmail: ${emailContato}\nHorários: ${horarios}\nLocal: ${local}`
-    );
+    await fetch(`http://localhost:3000/api/mentores/${mentorId}`, {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        nome,
+        email,
+        horario_disponivel: horario,
+        local,
+      }),
+    });
+    alert("Perfil atualizado!");
   };
 
   return (
@@ -22,37 +44,31 @@ export default function PerfilMentor() {
         <label>
           Nome:
           <input
-            type="text"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
           />
         </label>
 
         <label>
-          Email de Contato:
+          Email:
           <input
-            type="email"
-            value={emailContato}
-            onChange={(e) => setEmailContato(e.target.value)}
-            pattern=".+@unesp\.br"
-            title="Somente emails @unesp.br são permitidos"
+            value={email}
             disabled
           />
         </label>
 
         <label>
           Horários Disponíveis:
-          <textarea
-            value={horarios}
-            onChange={(e) => setHorarios(e.target.value)}
+          <input
+            value={horario}
+            onChange={(e) => setHorario(e.target.value)}
             placeholder="Ex: Seg e Qua - 14h às 16h"
           />
         </label>
 
         <label>
-          Local de Atendimento:
+          Local:
           <input
-            type="text"
             value={local}
             onChange={(e) => setLocal(e.target.value)}
             placeholder="Ex: Lab 10"

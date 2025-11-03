@@ -1,73 +1,85 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/Dashboard.css";
 
-export default function Dashboard() {
-  // Simulação de perguntas
-  const [perguntas, setPerguntas] = useState([
-    { id: 1, autor: "João", titulo: "Como usar React Router?", resposta: "Você deve envolver o app em <BrowserRouter> e usar <Routes> e <Route>." },
-    { id: 2, autor: "Maria", titulo: "Diferença entre var, let e const?", resposta: "" },
-  ]);
-
+export default function Dashboard({ alunoId, mentorId, isMentor }) {
+  const [perguntas, setPerguntas] = useState([]);
   const [novaPergunta, setNovaPergunta] = useState("");
-  const [resposta, setResposta] = useState("");
+  const [respostas, setRespostas] = useState({}); // { perguntaId: resposta }
 
-  const handlePerguntar = () => {
+  useEffect(() => {
+    fetch("http://localhost:3000/api/perguntas")
+      .then((res) => res.json())
+      .then(setPerguntas);
+  }, []);
+
+  const handlePerguntar = async () => {
     if (!novaPergunta.trim()) return;
-    const nova = {
-      id: perguntas.length + 1,
-      autor: "Você",
-      titulo: novaPergunta,
-      resposta: "",
-    };
-    setPerguntas([...perguntas, nova]);
+    await fetch("http://localhost:3000/api/perguntas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ usuario_id: alunoId, titulo: novaPergunta }),
+    });
     setNovaPergunta("");
+    // Recarregar perguntas
+    const res = await fetch("http://localhost:3000/api/perguntas");
+    setPerguntas(await res.json());
   };
 
-  const handleResponder = (id) => {
-    if (!resposta.trim()) return;
-    setPerguntas(
-      perguntas.map((p) =>
-        p.id === id ? { ...p, resposta } : p
-      )
-    );
-    setResposta("");
+  const handleResponder = async (id) => {
+    const resposta = respostas[id];
+    if (!resposta?.trim()) return;
+    await fetch("http://localhost:3000/api/perguntas/responder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pergunta_id: id, mentor_id: mentorId, conteudo: resposta }),
+    });
+    setRespostas((prev) => ({ ...prev, [id]: "" }));
+    const res = await fetch("http://localhost:3000/api/perguntas");
+    setPerguntas(await res.json());
   };
 
   return (
     <div className="dashboard-container">
       <h1>Mural de Perguntas</h1>
 
-      <div className="pergunta-form">
-        <input
-          type="text"
-          placeholder="Digite sua dúvida..."
-          value={novaPergunta}
-          onChange={(e) => setNovaPergunta(e.target.value)}
-        />
-        <button onClick={handlePerguntar}>Enviar Pergunta</button>
-      </div>
+      {!isMentor && (
+        <div className="pergunta-form">
+          <input
+            type="text"
+            placeholder="Digite sua dúvida..."
+            value={novaPergunta}
+            onChange={(e) => setNovaPergunta(e.target.value)}
+          />
+          <button onClick={handlePerguntar}>Enviar Pergunta</button>
+        </div>
+      )}
 
       <div className="mural">
         {perguntas.map((p) => (
-          <div key={p.id} className="pergunta-card">
+          <div key={p.pergunta_id} className="pergunta-card">
             <h3>{p.titulo}</h3>
             <p><strong>Autor:</strong> {p.autor}</p>
 
-            {p.resposta ? (
+            {p.conteudo ? (
               <div className="resposta">
                 <strong>Resposta:</strong>
-                <p>{p.resposta}</p>
+                <p>{p.conteudo}</p>
+                <p><em>{p.mentor}</em></p>
               </div>
             ) : (
-              <div className="resposta-form">
-                <input
-                  type="text"
-                  placeholder="Responder como mentor..."
-                  value={resposta}
-                  onChange={(e) => setResposta(e.target.value)}
-                />
-                <button onClick={() => handleResponder(p.id)}>Responder</button>
-              </div>
+              isMentor && (
+                <div className="resposta-form">
+                  <input
+                    type="text"
+                    placeholder="Responder como mentor..."
+                    value={respostas[p.pergunta_id] || ""}
+                    onChange={(e) =>
+                      setRespostas((prev) => ({ ...prev, [p.pergunta_id]: e.target.value }))
+                    }
+                  />
+                  <button onClick={() => handleResponder(p.pergunta_id)}>Responder</button>
+                </div>
+              )
             )}
           </div>
         ))}

@@ -16,8 +16,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/mentores" element={<Mentores />} />
-        <Route path="/perfil-mentor" element={<PerfilMentor />} />
-        <Route path="/perfil-aluno" element={<PerfilAluno />} />
+        <Route path="/perfil-mentor" element={<PerfilMentor mentorId={3} />} />
+        <Route path="/perfil-aluno" element={<PerfilAluno alunoId={1} />} />
       </Routes>
     </>
   );

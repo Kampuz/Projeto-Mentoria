@@ -1,16 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/PerfilMentor.css";
 
-export default function PerfilAluno() {
+export default function PerfilMentor({ alunoId }) {
   // Simulação de dados do mentor logado
-  const [nome, setNome] = useState("Ana Souza");
-  const [emailContato, setEmailContato] = useState("ana.souza@unesp.br");
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/alunos`)
+      .then((res) => res.json())
+      .then((data) => {
+        const aluno = data.find((m) => m.id === alunoId);
+        if (aluno) {
+          setNome(aluno.nome);
+          setEmail(aluno.email);
+        }
+      });
+  }, [alunoId]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(
-      `Perfil de mentor atualizado:\nNome: ${nome}\nEmail: ${emailContato}`
-    );
+    await fetch(`http://localhost:3000/api/mentores/${alunoId}`, {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        nome,
+        email,
+      }),
+    });
+    alert("Perfil atualizado!");
   };
 
   return (
@@ -20,20 +38,15 @@ export default function PerfilAluno() {
         <label>
           Nome:
           <input
-            type="text"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
           />
         </label>
 
         <label>
-          Email de Contato:
+          Email:
           <input
-            type="email"
-            value={emailContato}
-            onChange={(e) => setEmailContato(e.target.value)}
-            pattern=".+@unesp\.br"
-            title="Somente emails @unesp.br são permitidos"
+            value={email}
             disabled
           />
         </label>
