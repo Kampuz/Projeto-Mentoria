@@ -2,20 +2,22 @@ import { useState } from "react";
 import "../styles/Perfil.css";
 
 export default function Perfil() {
-  // Simulando dados do usuário
-  const [nome, setNome] = useState("Miguel Campos");
-  const [email, setEmail] = useState("miguel@unesp.br");
-  const [curso, setCurso] = useState("Ciência da Computação");
-  const [disciplina, setDisciplina] = useState("Ciência de Dados");
+  // Simulação de dados do mentor logado
+  const [nome, setNome] = useState("Ana Souza");
+  const [emailContato, setEmailContato] = useState("ana.souza@unesp.br");
+  const [horarios, setHorarios] = useState("Seg e Qua - 14h às 16h, Sex - 10h às 12h");
+  const [local, setLocal] = useState("Lab 10");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Perfil atualizado:\nNome: ${nome}\nEmail: ${email}\nCurso: ${curso}\nDisciplina: ${disciplina}`);
+    alert(
+      `Perfil de mentor atualizado:\nNome: ${nome}\nEmail: ${emailContato}\nHorários: ${horarios}\nLocal: ${local}`
+    );
   };
 
   return (
     <div className="perfil-container">
-      <h1>Meu Perfil</h1>
+      <h1>Meu Perfil de Mentor</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Nome:
@@ -25,32 +27,39 @@ export default function Perfil() {
             onChange={(e) => setNome(e.target.value)}
           />
         </label>
+
         <label>
-          Email:
+          Email de Contato:
           <input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled
+            value={emailContato}
+            onChange={(e) => setEmailContato(e.target.value)}
+            pattern=".+@unesp\.br"
+            title="Somente emails @unesp.br são permitidos"
+            required
           />
         </label>
+
         <label>
-          Curso:
+          Horários Disponíveis:
+          <textarea
+            value={horarios}
+            onChange={(e) => setHorarios(e.target.value)}
+            placeholder="Ex: Seg e Qua - 14h às 16h"
+          />
+        </label>
+
+        <label>
+          Local de Atendimento:
           <input
             type="text"
-            value={curso}
-            onChange={(e) => setCurso(e.target.value)}
+            value={local}
+            onChange={(e) => setLocal(e.target.value)}
+            placeholder="Ex: Lab 10"
           />
         </label>
-        <label>
-          Disciplina:
-          <input
-            type="text"
-            value={disciplina}
-            onChange={(e) => setDisciplina(e.target.value)}
-          />
-        </label>
-        <button type="submit">Salvar</button>
+
+        <button type="submit">Salvar Alterações</button>
       </form>
     </div>
   );
