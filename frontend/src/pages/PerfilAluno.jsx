@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import "../styles/PerfilMentor.css";
+import "../styles/Perfil.css";
 
-export default function PerfilMentor({ alunoId }) {
+export default function PerfilAluno({ alunoId }) {
   // Simulação de dados do mentor logado
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ export default function PerfilMentor({ alunoId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch(`http://localhost:3000/api/mentores/${alunoId}`, {
+    await fetch(`http://localhost:3000/api/alunos/${alunoId}`, {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({

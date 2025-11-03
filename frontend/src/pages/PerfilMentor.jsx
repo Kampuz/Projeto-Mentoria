@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../styles/PerfilMentor.css";
+import "../styles/Perfil.css";
 
 export default function PerfilMentor({ mentorId }) {
   // Simulação de dados do mentor logado
