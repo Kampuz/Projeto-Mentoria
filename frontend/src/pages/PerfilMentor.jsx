@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "../styles/Perfil.css";
+import "../styles/PerfilMentor.css";
 
-export default function Perfil() {
+export default function PerfilMentor() {
   // Simulação de dados do mentor logado
   const [nome, setNome] = useState("Ana Souza");
   const [emailContato, setEmailContato] = useState("ana.souza@unesp.br");

@@ -7,7 +7,7 @@ export default function Navbar() {
       <Link to="/login">Login</Link> |{" "}
       <Link to="/dashboard">Dashboard</Link> |{" "}
       <Link to="/mentores">Mentores</Link> |{" "}
-      <Link to="/perfil">Meu Perfil</Link>
+      <Link to="/perfil-mentor">Meu Perfil</Link>
     </nav>
   );
 }

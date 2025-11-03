@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Mentores from "./pages/Mentoria";
-import Perfil from "./pages/Perfil";
+import PerfilMentor from "./pages/PerfilMentor";
 
 export default function App() {
   return (
@@ -15,7 +15,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/mentores" element={<Mentores />} />
-        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/perfil-mentor" element={<PerfilMentor />} />
       </Routes>
     </>
   );
