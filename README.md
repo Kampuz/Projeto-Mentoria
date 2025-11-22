@@ -2,10 +2,6 @@
 
 para rodar o modo de desenvolvimento:
 
-cd frontend
+cd frontend ; npm dev run
 
-npm dev run
-
-cd ../backend
-
-node server.js
+cd backend ; node server.js
