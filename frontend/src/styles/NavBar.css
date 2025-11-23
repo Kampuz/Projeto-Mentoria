@@ -1,0 +1,35 @@
+nav {
+  background-color: #1e1e1e;
+  padding: 12px 20px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+nav a:hover {
+  background-color: #3a3a3a;
+}
+
+nav a.active {
+  background-color: #5a5a5a;
+}
+
+@media (max-width: 600px) {
+  nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  nav a {
+    padding: 8px 12px;
+  }
+}

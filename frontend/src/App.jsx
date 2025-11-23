@@ -1,23 +1,38 @@
 import { Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
+
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Mentores from "./pages/Mentoria";
-import PerfilMentor from "./pages/PerfilMentor";
-import PerfilAluno from "./pages/PerfilAluno";
+import HomeMentor from "./pages/mentor/HomeMentor";
+
+import ListaDiscentes from "./pages/discente/Discentes";
+import CadastroDiscente from "./pages/discente/CadastroDiscente";
+
+import ListaMentores from "./pages/mentor/Mentores";
+import CadastroMentor from "./pages/mentor/CadastroMentor";
+
+import ListaOportunidades from "./pages/oportunidade/Oportunidades";
+import CadastroOportunidade from "./pages/oportunidade/CadastroOportunidade";
 
 export default function App() {
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/mentores" element={<Mentores />} />
-        <Route path="/perfil-mentor" element={<PerfilMentor mentorId={3} />} />
-        <Route path="/perfil-aluno" element={<PerfilAluno alunoId={1} />} />
+
+        <Route path="/" element={<Home />} />
+        <Route path="/mentor" element={<HomeMentor />} />
+
+        <Route path="/discentes" element={<ListaDiscentes />} />
+        <Route path="/cadastro-discente" element={<CadastroDiscente />} />
+
+        <Route path="/mentores" element={<ListaMentores />} />
+        <Route path="/cadastro-mentor" element={<CadastroMentor />} />
+
+        <Route path="/oportunidades" element={<ListaOportunidades />} />
+        <Route path="/cadastro-oportunidade" element={<CadastroOportunidade />} />
       </Routes>
     </>
   );
