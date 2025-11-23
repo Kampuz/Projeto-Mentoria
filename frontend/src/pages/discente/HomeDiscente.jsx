@@ -4,10 +4,6 @@ import "../../styles/HomeMentor.css"
 export default function Home() {
     return (
         <div className="container">
-            <Link className="link-btn" to="/discentes">
-                Discentes
-            </Link>
-            <br/>
             <Link className="link-btn" to="/mentores">
                 Mentores
             </Link>

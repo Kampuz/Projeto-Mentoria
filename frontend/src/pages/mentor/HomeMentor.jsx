@@ -4,10 +4,16 @@ import "../../styles/HomeMentor.css"
 export default function HomeMentor() {
     return (
         <div className="container">
+            <Link className="link-btn" to="/discentes">
+                Lista de Discentes
+            </Link>
             <Link className="link-btn" to="/cadastro-discente">
                 Cadastrar discente
             </Link>
             <br/>
+            <Link className="link-btn" to="/mentores">
+                Lista de Mentores
+            </Link>
             <Link className="link-btn" to="/cadastro-mentor">
                 Cadastrar mentor
             </Link>
@@ -25,7 +31,7 @@ export default function HomeMentor() {
             </Link>
             <br/>
             <Link className="link-btn" to="/cadastro-oportunidade">
-                Cadastrar oportunidade
+                Oportunidades
             </Link>
         </div>
     );

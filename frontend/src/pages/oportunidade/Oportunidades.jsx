@@ -25,6 +25,15 @@ export default function ListaOportunidades() {
                 {oportunidades.map(op => (
                     <OportunidadeCard
                         key={op.id_oportunidade}
+                        id={op.id_oportunidade}
+                        titulo={op.titulo}
+                        tipo={op.tipo}
+                        descricao={op.descricao}
+                        requisitos={op.requisitos}
+                        data_publicacao={op.data_publicacao}
+                        data_limite={op.data_limite}
+                        link={op.link}
+                    />
                 ))}
             </div>
         </div>
