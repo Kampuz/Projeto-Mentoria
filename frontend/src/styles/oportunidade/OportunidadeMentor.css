@@ -1,0 +1,142 @@
+/* Contêiner geral */
+.op-container {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Formulário */
+.op-form {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.op-form input,
+.op-form textarea,
+.op-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.op-form button {
+    background: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.op-form button:hover {
+    background: #125ea5;
+}
+
+.cancelar-btn {
+    background: #888 !important;
+}
+
+.cancelar-btn:hover {
+    background: #666 !important;
+}
+
+/* Lista */
+.op-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.op-card {
+    background: #fff;
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.op-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.op-header h3 {
+    margin: 0;
+}
+
+.op-tag {
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #1976d2;
+    color: white;
+    font-size: 13px;
+}
+
+.op-desc {
+    margin: 5px 0;
+}
+
+.op-req {
+    font-size: 14px;
+    color: #444;
+}
+
+.op-datas {
+    font-size: 14px;
+    color: #333;
+}
+
+.op-link {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: bold;
+}
+
+.op-link:hover {
+    text-decoration: underline;
+}
+
+/* Botões */
+.op-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-edit {
+    background: #ffa726;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+}
+
+.btn-edit:hover {
+    background: #fb8c00;
+}
+
+.btn-remove {
+    background: #e53935;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+}
+
+.btn-remove:hover {
+    background: #c62828;
+}

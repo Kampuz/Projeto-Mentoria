@@ -1,35 +1,62 @@
-import { Link } from "react-router-dom";
-import "../styles/OportunidadeCard.css"
-
+import { useState } from "react";
+import "../styles/oportunidade/OportunidadeCard.css";
 
 export default function OportunidadeCard({
     id,
     titulo,
     tipo,
     descricao,
-    data_limite
+    requisitos,
+    data_publicacao,
+    data_limite,
+    link
 }) {
+    const [mensagem, setMensagem] = useState("");
+
+    async function inscrever() {
+        const resposta = await fetch(`http://localhost:3000/api/oportunidades/${id}/inscrever`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({id_discente: 1})
+        });
+        
+        const data = await resposta.json();
+        setMensagem(data.mensagem);
+    }
+
     return (
         <div className="op-card">
-            <h2>{titulo}</h2>
+            <h2 className="op-titulo">{titulo}</h2>
 
             <span className={`op-tipo tipo-${tipo}`}>
                 {tipo.toUpperCase()}
             </span>
 
+            <p className="op-requisitos">
+                {requisitos}
+            </p>
+
             <p className="op-descricao">
-                {descricao.length > 120
-                    ? descricao.substring(0, 120) + "..."
-                    : descricao}
+                {descricao}
             </p>
 
             <p className="op-data">
-                Data limite: {data_limite || "Não informado"}
+                Data publicacao: <b>{data_publicacao || "Não informado"}</b>
             </p>
 
-            <Link to={`/oportunidade/${id}`} className="op-btn">
-                    Ver detalhes
-            </Link>
+            <p className="op-data">
+                Data limite: <b>{data_limite || "Não informado"}</b>
+            </p>
+
+            <a href={link} target="_blank" rel="noopener noreferrer">
+                {link}
+            </a>
+
+            <button className="inscrever-btn" onClick={inscrever}>
+                Inscrever-se
+            </button>
+
+            {mensagem && <p className="mensagem-retorno">{mensagem}</p>}
         </div>
     );
 }

@@ -1,0 +1,44 @@
+.mentor-card {
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 16px;
+}
+
+.mentor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mentor-tag {
+    background: #3b82f6;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.mentor-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.btn-edit {
+    background: #facc15;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.btn-remove {
+    background: #ef4444;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    color: white;
+    border-radius: 6px;
+}

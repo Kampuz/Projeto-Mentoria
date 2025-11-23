@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import "../../styles/oportunidade/OportunidadeMentor.css"
+import "../../styles/OportunidadeMentor.css"
 
-export default function GerenciamentoOportunidades() {
+export default function CadastroOportunidade() {
     const [oportunidades, setOportunidades] = useState([]);
     
     const [form, setForm] = useState({

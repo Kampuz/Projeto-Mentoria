@@ -2,19 +2,19 @@ import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 
-import Home from "./pages/Home";
+import Home from "./pages/home/Home";
 import Login from "./pages/Login";
-import HomeMentor from "./pages/mentor/HomeMentor";
+import HomeMentor from "./pages/home/HomeMentor";
 import HomeDiscente from "./pages/discente/HomeDiscente"
 
 import ListaDiscentes from "./pages/discente/Discentes";
 import CadastroDiscente from "./pages/discente/CadastroDiscente";
 
 import ListaMentores from "./pages/mentor/Mentores";
-import CadastroMentor from "./pages/mentor/CadastroMentor";
+import CadastroMentor from "./pages/mentor/GerenciamentoMentores";
 
 import ListaOportunidades from "./pages/oportunidade/Oportunidades";
-import CadastroOportunidade from "./pages/oportunidade/OportunidadesMentor";
+import GerenciamentoOportunidades from "./pages/oportunidade/OportunidadesMentor";
 
 export default function App() {
   return (
@@ -34,7 +34,7 @@ export default function App() {
         <Route path="/cadastro-mentor" element={<CadastroMentor />} />
 
         <Route path="/oportunidades" element={<ListaOportunidades />} />
-        <Route path="/cadastro-oportunidade" element={<CadastroOportunidade />} />
+        <Route path="/gerenciamento-oportunidade" element={<GerenciamentoOportunidades />} />
       </Routes>
     </>
   );

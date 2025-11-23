@@ -8,10 +8,7 @@ CREATE TABLE discentes (
     id_discente INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
     email VARCHAR(150) UNIQUE,
-    curso VARCHAR(100),
-    periodo VARCHAR(20),
-    matricula VARCHAR(50) UNIQUE,
-    telefone VARCHAR(30)
+    matricula VARCHAR(50) UNIQUE
 );
 
 CREATE TABLE discentes_mentores (
