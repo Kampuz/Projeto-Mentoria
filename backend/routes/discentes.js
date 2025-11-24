@@ -90,4 +90,19 @@ router.delete("/:id/desvincular", async (req, res) => {
     }
 });
 
+// DELETE /api/discentes/:id
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [result] = await db.query("DELETE FROM discentes WHERE id_discente = ?", [id]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Discente não encontrado" });
+    }
+    res.json({ message: "Discente removido com sucesso" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erro ao deletar discente" });
+  }
+});
+
 export default router;

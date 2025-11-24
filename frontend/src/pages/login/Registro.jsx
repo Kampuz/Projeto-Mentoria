@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import "../../styles/Registro.css"
 
 export default function Registro() {
   const [nome, setNome] = useState("");
@@ -33,6 +35,8 @@ export default function Registro() {
 
         <button type="submit">Registrar</button>
       </form>
+
+      <Link to={"/login"}>Voltar</Link>
       {mensagem && <p>{mensagem}</p>}
     </div>
   );

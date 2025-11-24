@@ -1,5 +1,5 @@
-/* Login.css */
-.login-container {
+/* Registro.css */
+.registro-container {
   width: 100%;
   max-width: 400px;
   margin: 80px auto;
@@ -10,25 +10,24 @@
   font-family: 'Arial', sans-serif;
 }
 
-.login-container h1 {
+.registro-container h1 {
   text-align: center;
   margin-bottom: 25px;
   color: #333;
 }
 
-.login-container form {
+.registro-container form {
   display: flex;
   flex-direction: column;
 }
 
-.login-container label {
+.registro-container label {
   margin-bottom: 6px;
   font-weight: bold;
   color: #555;
 }
 
-.login-container input,
-.login-container select {
+.registro-container input {
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
@@ -37,13 +36,12 @@
   transition: border-color 0.2s;
 }
 
-.login-container input:focus,
-.login-container select:focus {
+.registro-container input:focus {
   outline: none;
   border-color: #4caf50;
 }
 
-.login-container button {
+.registro-container button {
   padding: 12px;
   background-color: #4caf50;
   color: #fff;
@@ -54,26 +52,13 @@
   transition: background-color 0.3s;
 }
 
-.login-container button:hover {
+.registro-container button:hover {
   background-color: #45a049;
 }
 
-.login-container a {
-  display: block;
-  text-align: center;
-  margin-top: 15px;
-  color: #4caf50;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.login-container a:hover {
-  text-decoration: underline;
-}
-
-.login-container p {
+.registro-container p {
   margin-top: 15px;
   text-align: center;
-  color: #e74c3c; /* error messages */
+  color: #e74c3c; /* mensagens de erro */
   font-weight: bold;
 }
