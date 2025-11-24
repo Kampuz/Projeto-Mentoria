@@ -82,6 +82,16 @@ CREATE TABLE disciplina_recados (
     link_material VARCHAR(300),
     FOREIGN KEY (id_disciplina) REFERENCES disciplinas(id_disciplina)
 );
+
+CREATE TABLE disciplina_alunos (
+	id_disciplina INT,
+	id_discente INT,
+    data_inscricao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(id_disciplina, id_discente),
+    FOREIGN KEY (id_disciplina) REFERENCES disciplinas(id_disciplina),
+    FOREIGN KEY (id_discente) REFERENCES discentes(id_discente)
+);
+
 -- ================================
 -- 4. BASE DE OPORTUNIDADES
 -- ================================

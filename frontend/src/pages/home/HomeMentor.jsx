@@ -12,8 +12,8 @@ export default function HomeMentor() {
                 Cadastrar atividade
             </Link>
             <br/>
-            <Link className="link-btn" to="/cadastro-evento">
-                Cadastrar evento
+            <Link className="link-btn" to="/gerenciamento-disciplinas">
+                Gerenciamento disciplinas
             </Link>
             <br/>
             <Link className="link-btn" to="/gerenciamento-oportunidades">

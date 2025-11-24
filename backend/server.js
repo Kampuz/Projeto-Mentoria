@@ -11,7 +11,8 @@ import atendimentosRoutes from "./routes/atendimentos.js"
 import perfilRoutes from "./routes/perfil.js"
 import loginRoutes from "./routes/login.js"
 
-
+import disciplinasRoutes from "./routes/disciplinas.js"
+import recadosRoutes from "./routes/recados.js"
 const app = express();
 
 app.use(cors({
@@ -28,7 +29,9 @@ app.use("/api/discentes", discentesRoutes);
 app.use("/api/atividades", atividadesRoutes);
 app.use("/api/atendimentos", atendimentosRoutes);
 app.use("/api/oportunidades", oportunidadesRoutes);
-app.use("/api/", loginRoutes)
+app.use("/api/", loginRoutes);
+app.use("/api/disciplinas", disciplinasRoutes);
+app.use("/api/recados", recadosRoutes);
 
 
 app.listen(3000, () => {
