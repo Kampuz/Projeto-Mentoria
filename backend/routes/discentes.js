@@ -105,4 +105,69 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+
+
+// Listar disciplinas do discente
+router.get("/:id/disciplinas", async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      `SELECT d.* 
+       FROM disciplinas d
+       JOIN disciplina_alunos da ON d.id_disciplina = da.id_disciplina
+       WHERE da.id_discente = ?`,
+      [req.params.id]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erro ao listar disciplinas" });
+  }
+});
+
+// Adicionar disciplina ao discente
+router.post("/:id/disciplinas", async (req, res) => {
+  try {
+    const { id_disciplina } = req.body;
+    await db.query(
+      "INSERT INTO disciplina_alunos (id_discente, id_disciplina) VALUES (?, ?)",
+      [req.params.id, id_disciplina]
+    );
+    res.json({ message: "Disciplina adicionada ao discente" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erro ao adicionar disciplina" });
+  }
+});
+
+// Remover disciplina do discente
+router.delete("/:id/disciplinas/:id_disciplina", async (req, res) => {
+  try {
+    await db.query(
+      "DELETE FROM disciplina_alunos WHERE id_discente = ? AND id_disciplina = ?",
+      [req.params.id, req.params.id_disciplina]
+    );
+    res.json({ message: "Disciplina removida do discente" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erro ao remover disciplina" });
+  }
+});
+
+// --- Recados das disciplinas do discente ---
+router.get("/:id/recados", async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      `SELECT dr.* 
+       FROM disciplina_recados dr
+       JOIN disciplina_alunos da ON dr.id_disciplina = da.id_disciplina
+       WHERE da.id_discente = ?`,
+      [req.params.id]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erro ao listar recados" });
+  }
+});
+
 export default router;

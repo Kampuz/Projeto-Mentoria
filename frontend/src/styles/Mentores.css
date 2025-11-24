@@ -1,0 +1,68 @@
+/* src/styles/Mentores.css */
+
+.mentores {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: Arial, sans-serif;
+}
+
+.mentores h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.mentores__list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.mentores__item {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mentores__item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.mentores__item h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #0077cc;
+  font-size: 1.2rem;
+}
+
+.mentores__item p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.mentores__bio {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #666;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .mentores {
+    padding: 1rem;
+  }
+
+  .mentores__list {
+    grid-template-columns: 1fr;
+  }
+}

@@ -12,8 +12,8 @@ export default function Home() {
                 Atividades
             </Link>
             <br/>
-            <Link className="link-btn" to="/eventos">
-                Eventos
+            <Link className="link-btn" to="/recados">
+                Recados
             </Link>
             <br/>
             <Link className="link-btn" to="/oportunidades">

@@ -10,6 +10,7 @@ import HomeMentor from "./pages/home/HomeMentor";
 import HomeDiscente from "./pages/home/HomeDiscente"
 
 import Discentes from "./pages/discente/Discentes";
+import Mentores from "./pages/mentor/Mentores";
 
 import ListaOportunidades from "./pages/oportunidade/Oportunidades";
 import GerenciamentoOportunidades from "./pages/oportunidade/OportunidadesMentor";
@@ -21,6 +22,7 @@ import PerfilUsuario from "./pages/perfil/Perfil";
 
 import GerenciamentoDisciplina from "./pages/disciplina/GerenciamentoDisciplina"
 import GerenciamentoRecados from "./pages/disciplina/GerenciamentoRecados"
+import Recados from "./pages/disciplina/Recados"
 
 export default function App() {
   return (
@@ -35,6 +37,7 @@ export default function App() {
         <Route path="/mentor" element={<HomeMentor />} />
 
         <Route path="/discentes" element={<Discentes />} />
+        <Route path="/mentores" element={<Mentores />} />
 
         <Route path="/oportunidades" element={<ListaOportunidades />} />
         <Route path="/gerenciamento-oportunidades" element={<GerenciamentoOportunidades />} />
@@ -44,8 +47,9 @@ export default function App() {
 
         <Route path="/perfil" element={<PerfilUsuario userId={localStorage.getItem("userId")} />} />
 
-        <Route path="gerenciamento-disciplinas" element={<GerenciamentoDisciplina />} />
-        <Route path="gerenciamento-disciplinas/:id" element={<GerenciamentoRecados />} />
+        <Route path="/recados" element={<Recados />} />
+        <Route path="/gerenciamento-disciplinas" element={<GerenciamentoDisciplina />} />
+        <Route path="/gerenciamento-disciplinas/:id" element={<GerenciamentoRecados />} />
       </Routes>
     </>
   );

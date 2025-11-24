@@ -5,11 +5,11 @@ export default function HomeMentor() {
     return (
         <div className="container">
             <Link className="link-btn" to="/discentes">
-                Discentes
+                Gerenciar discentes
             </Link>
             <br/>
             <Link className="link-btn" to="/gerenciamento-atividades">
-                Cadastrar atividade
+                Gerenciar atividade
             </Link>
             <br/>
             <Link className="link-btn" to="/gerenciamento-disciplinas">
@@ -17,7 +17,7 @@ export default function HomeMentor() {
             </Link>
             <br/>
             <Link className="link-btn" to="/gerenciamento-oportunidades">
-                Oportunidades
+                Gerenciar oportunidades
             </Link>
             <br />
             <Link className="link-btn" to="/perfil">
