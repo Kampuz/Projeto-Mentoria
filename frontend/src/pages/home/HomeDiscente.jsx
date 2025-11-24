@@ -12,10 +12,6 @@ export default function Home() {
                 Atividades
             </Link>
             <br/>
-            <Link className="link-btn" to="/bolsas">
-                Bolsas
-            </Link>
-            <br/>
             <Link className="link-btn" to="/eventos">
                 Eventos
             </Link>
