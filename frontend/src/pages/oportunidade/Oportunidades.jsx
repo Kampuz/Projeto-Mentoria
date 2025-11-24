@@ -30,8 +30,8 @@ export default function ListaOportunidades() {
                         tipo={op.tipo}
                         descricao={op.descricao}
                         requisitos={op.requisitos}
-                        data_publicacao={op.data_publicacao}
-                        data_limite={op.data_limite}
+                        data_publicacao={new Date(op.data_publicacao).toLocaleDateString("pt-BR")}
+                        data_limite={new Date(op.data_limite).toLocaleDateString("pt-BR")}
                         link={op.link}
                     />
                 ))}

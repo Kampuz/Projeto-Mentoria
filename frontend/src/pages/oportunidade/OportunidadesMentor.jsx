@@ -166,8 +166,8 @@ export default function GerenciamentoOportunidades() {
                         )}
 
                         <div className="op-datas">
-                            <p><strong>Publicação:</strong> {op.data_publicacao}</p>
-                            <p><strong>Data Limite:</strong> {op.data_limite}</p>
+                            <p><strong>Publicação:</strong> {new Date(op.data_publicacao).toLocaleDateString("pt-BR")}</p>
+                            <p><strong>Data Limite:</strong> {new Date(op.data_limite).toLocaleDateString("pt-BR")}</p>
                         </div>
 
                         {op.link && (
