@@ -7,7 +7,7 @@ USE mentoria;
 -- ================================
 CREATE TABLE discentes (
     id_discente INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(150) NOT NULL,
+    nome VARCHAR(150) NOT NULL,	
     email VARCHAR(150) UNIQUE,
     senha VARCHAR(200),
     periodo INT NOT NULL DEFAULT 1,

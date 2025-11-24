@@ -1,10 +1,10 @@
 -- ================================
 -- DISCENTES
 -- ================================
-INSERT INTO discentes (nome, email, periodo, matricula) VALUES
-('Ana Silva', 'ana@exemplo.com', '3', '2021001'),
-('Bruno Costa', 'bruno@exemplo.com', '5', '2020502'),
-('Carla Souza', 'carla@exemplo.com', '2', '2022003');
+INSERT INTO discentes (nome, email, senha, periodo, matricula) VALUES
+('Ana Silva', 'ana@exemplo.com', '123', '3', '2021001'),
+('Bruno Costa', 'bruno@exemplo.com', '123', '5', '2020502'),
+('Carla Souza', 'carla@exemplo.com', '123', '2', '2022003');
 
 -- Mentor
 INSERT INTO discentes_mentores (id_mentor, area_atuacao, bio, disponibilidade) VALUES

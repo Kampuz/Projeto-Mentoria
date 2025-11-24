@@ -11,9 +11,6 @@ import HomeDiscente from "./pages/home/HomeDiscente"
 
 import Discentes from "./pages/discente/Discentes";
 
-import ListaMentores from "./pages/mentor/Mentores";
-import CadastroMentor from "./pages/mentor/GerenciamentoMentores";
-
 import ListaOportunidades from "./pages/oportunidade/Oportunidades";
 import GerenciamentoOportunidades from "./pages/oportunidade/OportunidadesMentor";
 
@@ -35,9 +32,6 @@ export default function App() {
         <Route path="/mentor" element={<HomeMentor />} />
 
         <Route path="/discentes" element={<Discentes />} />
-
-        <Route path="/mentores" element={<ListaMentores />} />
-        <Route path="/cadastro-mentor" element={<CadastroMentor />} />
 
         <Route path="/oportunidades" element={<ListaOportunidades />} />
         <Route path="/gerenciamento-oportunidades" element={<GerenciamentoOportunidades />} />

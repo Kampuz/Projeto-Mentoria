@@ -1,35 +1,34 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function PerfilUsuario() {
-  const [perfil, setPerfil] = useState(null);
-
-  // Pegue o id do usuário logado (exemplo: localStorage ou contexto)
-  const userId = localStorage.getItem("userId"); // OU outro lugar onde você guarda o id
+export default function Perfil() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userId) return; // Evita fazer requisição com null
-
-    async function carregarPerfil() {
-      try {
-        const resp = await fetch(`http://localhost:3000/api/perfil/${userId}`);
-        if (!resp.ok) throw new Error("Erro ao carregar perfil");
-        const data = await resp.json();
-        setPerfil(data);
-      } catch (err) {
-        console.error(err);
-      }
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUser(storedUser);
+    } else {
+      navigate("/login"); // se não tiver usuário logado, redireciona
     }
+  }, [navigate]);
 
-    carregarPerfil();
-  }, [userId]);
+  const handleLogout = () => {
+    localStorage.removeItem("user"); // remove os dados do usuário
+    navigate("/login"); // redireciona para login
+  };
 
-  if (!perfil) return <p>Carregando...</p>;
+  if (!user) return null;
 
   return (
-    <div>
-      <h1>Perfil de {perfil.nome}</h1>
-      <p>Email: {perfil.email}</p>
-      {/* Renderize mais informações */}
+    <div className="perfil-container">
+      <h1>Perfil do Usuário</h1>
+      <p><strong>Nome:</strong> {user.nome}</p>
+      <p><strong>Email:</strong> {user.email}</p>
+      <p><strong>Tipo:</strong> {user.tipo}</p>
+
+      <button onClick={handleLogout}>Sair</button>
     </div>
   );
 }

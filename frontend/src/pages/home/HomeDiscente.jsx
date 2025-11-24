@@ -19,6 +19,10 @@ export default function Home() {
             <Link className="link-btn" to="/oportunidades">
                 Oportunidades
             </Link>
+            <br />
+            <Link className="link-btn" to="/perfil">
+                Perfil
+            </Link>
         </div>
     );
 }
