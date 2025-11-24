@@ -5,6 +5,8 @@ import cors from "cors";
 import oportunidadesRoutes from "./routes/oportunidades.js"
 import mentoresRoutes from "./routes/mentores.js"
 import discentesRoutes from "./routes/discentes.js"
+import atividadesRoutes from "./routes/atividades.js"
+import atendimentosRoutes from "./routes/atendimentos.js"
 
 
 const app = express();
@@ -20,6 +22,8 @@ app.use(express.json());
 app.use("/api/oportunidades", oportunidadesRoutes);
 app.use("/api/mentores", mentoresRoutes);
 app.use("/api/discentes", discentesRoutes);
+app.use("/api/atividades", atividadesRoutes);
+app.use("/api/atendimentos", atendimentosRoutes);
 
 app.listen(3000, () => {
     console.log("Servidor rodando na porta 3000")

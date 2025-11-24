@@ -15,6 +15,9 @@ import CadastroMentor from "./pages/mentor/GerenciamentoMentores";
 import ListaOportunidades from "./pages/oportunidade/Oportunidades";
 import GerenciamentoOportunidades from "./pages/oportunidade/OportunidadesMentor";
 
+import Atividades from "./pages/atividade/Atividades";
+import GerenciamentoAtividades from "./pages/atividade/AtividadesMentor";
+
 export default function App() {
   return (
     <>
@@ -32,7 +35,10 @@ export default function App() {
         <Route path="/cadastro-mentor" element={<CadastroMentor />} />
 
         <Route path="/oportunidades" element={<ListaOportunidades />} />
-        <Route path="/gerenciamento-oportunidade" element={<GerenciamentoOportunidades />} />
+        <Route path="/gerenciamento-oportunidades" element={<GerenciamentoOportunidades />} />
+
+        <Route path="/atividades" element={<Atividades />} />
+        <Route path="/gerenciamento-atividades" element={<GerenciamentoAtividades />} />
       </Routes>
     </>
   );

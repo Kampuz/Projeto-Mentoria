@@ -9,7 +9,7 @@ CREATE TABLE discentes (
     id_discente INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
     email VARCHAR(150) UNIQUE,
-    periodo INT,
+    periodo INT NOT NULL DEFAULT 1,
     matricula VARCHAR(50) UNIQUE
 );
 
@@ -26,15 +26,17 @@ CREATE TABLE discentes_mentores (
 -- ================================
 CREATE TABLE atividades (
     id_atividade INT AUTO_INCREMENT PRIMARY KEY,
-    data DATE NOT NULL,
+    titulo VARCHAR(200) NOT NULL,
+    tipo ENUM('atendimento','reuniao','palestra','outro') NOT NULL,
     descricao TEXT,
-    tipo ENUM('atendimento','reuniao','palestra','outro') NOT NULL
+    data DATETIME NOT NULL,
+    local VARCHAR(100)
 );
 
 CREATE TABLE atividade_participantes (
     id_atividade INT,
     id_discente INT,
-    papel ENUM('participante','inscrito'),
+    papel ENUM('organizador', 'participante','inscrito'),
     PRIMARY KEY(id_atividade, id_discente),
     FOREIGN KEY (id_atividade) REFERENCES atividades(id_atividade),
     FOREIGN KEY (id_discente) REFERENCES discentes(id_discente)
@@ -44,9 +46,10 @@ CREATE TABLE atendimentos (
     id_atendimento INT AUTO_INCREMENT PRIMARY KEY,
     id_atividade INT UNIQUE,
     tipo_atendimento ENUM('individual','coletivo') NOT NULL,
-    hora TIME,
     observacoes TEXT,
-    FOREIGN KEY (id_atividade) REFERENCES atividades(id_atividade)
+    id_mentor_responsavel INT,
+    FOREIGN KEY (id_atividade) REFERENCES atividades(id_atividade),
+    FOREIGN KEY (id_mentor_responsavel) REFERENCES discentes_mentores(id_mentor)
 );
 
 -- ================================
@@ -59,7 +62,7 @@ CREATE TABLE disciplinas (
     professor VARCHAR(150)
 );
 
-CREATE TABLE disciplina_eventos (
+CREATE TABLE disciplina_recados (
     id_evento INT AUTO_INCREMENT PRIMARY KEY,
     id_disciplina INT,
     tipo_evento ENUM('trabalho','prova','ocorrencia','material') NOT NULL,
@@ -69,21 +72,8 @@ CREATE TABLE disciplina_eventos (
     link_material VARCHAR(300),
     FOREIGN KEY (id_disciplina) REFERENCES disciplinas(id_disciplina)
 );
-
 -- ================================
--- 4. ATIVIDADES EXTRAS (REUNIÕES, PALESTRAS)
--- ================================
-CREATE TABLE eventos_gerais (
-    id_evento_geral INT AUTO_INCREMENT PRIMARY KEY,
-    tipo ENUM('reuniao','palestra') NOT NULL,
-    data DATE NOT NULL,
-    hora TIME,
-    descricao TEXT,
-    local VARCHAR(150)
-);
-
--- ================================
--- 5. BASE DE OPORTUNIDADES
+-- 4. BASE DE OPORTUNIDADES
 -- ================================
 CREATE TABLE oportunidades (
     id_oportunidade INT AUTO_INCREMENT PRIMARY KEY,
@@ -106,7 +96,7 @@ CREATE TABLE oportunidades_inscritos (
 );
 
 -- ================================
--- 6. FÓRUM (DÚVIDAS E DISCUSSÃO)
+-- 5. FÓRUM (DÚVIDAS E DISCUSSÃO)
 -- ================================
 CREATE TABLE forum_topicos (
     id_topico INT AUTO_INCREMENT PRIMARY KEY,

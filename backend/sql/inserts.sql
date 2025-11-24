@@ -1,7 +1,7 @@
 -- ================================
 -- DISCENTES
 -- ================================
-INSERT INTO discentes (nome, email, periodo, matricula, telefone) VALUES
+INSERT INTO discentes (nome, email, periodo, matricula) VALUES
 ('Ana Silva', 'ana@exemplo.com', '3', '2021001'),
 ('Bruno Costa', 'bruno@exemplo.com', '5', '2020502'),
 ('Carla Souza', 'carla@exemplo.com', '2', '2022003');
@@ -13,10 +13,10 @@ INSERT INTO discentes_mentores (id_mentor, area_atuacao, bio, disponibilidade) V
 -- ================================
 -- ATIVIDADES
 -- ================================
-INSERT INTO atividades (data, descricao, tipo) VALUES
-('2025-03-10', 'Atendimento individual sobre dificuldades em Cálculo', 'atendimento'),
-('2025-03-11', 'Reunião semanal da mentoria', 'reuniao'),
-('2025-03-12', 'Palestra sobre mercado de tecnologia', 'palestra');
+INSERT INTO atividades (titulo, tipo, descricao, data, local) VALUES
+('Atendimento individual sobre dificuldades em Cálculo', 'atendimento', 'Tragam calculadora', '2025-03-10 14:00:00', 'Biblioteca'),
+('Reunião semanal da mentoria', 'reuniao', 'Discussão de progresso dos mentorados', '2025-03-11 10:00:00', 'Sala de reuniões'),
+('Palestra sobre mercado de tecnologia', 'palestra', 'Palestra com profissional da área de TI', '2025-03-12 15:00:00', 'Auditório');
 
 -- Participantes
 INSERT INTO atividade_participantes (id_atividade, id_discente, papel) VALUES
@@ -28,9 +28,8 @@ INSERT INTO atividade_participantes (id_atividade, id_discente, papel) VALUES
 (3, 2, 'inscrito');
 
 -- Atendimento
-INSERT INTO atendimentos (id_atividade, tipo_atendimento, hora, observacoes) VALUES
-(1, 'individual', '14:00:00', 'Dúvidas sobre derivadas');
-
+INSERT INTO atendimentos (id_atividade, tipo_atendimento, observacoes, id_mentor_responsavel) VALUES
+(1, 'individual', 'Dúvidas sobre derivadas', 1);
 -- ================================
 -- DISCIPLINAS
 -- ================================
