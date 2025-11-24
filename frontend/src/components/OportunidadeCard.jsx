@@ -52,9 +52,9 @@ export default function OportunidadeCard({
                 {link}
             </a>
 
-            <button className="inscrever-btn" onClick={inscrever}>
-                Inscrever-se
-            </button>
+                <button className="inscrever-btn" onClick={inscrever}>
+                    Fiz inscrição
+                </button>
 
             {mensagem && <p className="mensagem-retorno">{mensagem}</p>}
         </div>

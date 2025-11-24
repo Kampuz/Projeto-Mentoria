@@ -27,22 +27,22 @@ router.get("/:id", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    const { nome, email, matricula } = req.body;
+    const { nome, email, matricula, periodo } = req.body;
     
     const [result] = await db.query(
-        "INSERT INTO discentes (nome, email, matricula) VALUES (?, ?, ?)",
-        [nome, email, matricula]
+        "INSERT INTO discentes (nome, email, matricula, periodo) VALUES (?, ?, ?, ?)",
+        [nome, email, matricula, periodo]
     );
 
     res.json({ mensagem: "Discente criado", id: result.insertId});
 });
 
 router.put("/:id", async (req, res) => {
-    const { nome, email, matricula } = req.body;
+    const { nome, email, matricula, periodo } = req.body;
 
     await db.query(
-        "UPDATE discentes SET nome=?, email=?, matricula =? WHERE id_discente=?",
-        [nome, email, matricula, req.params.id]
+        "UPDATE discentes SET nome=?, email=?, matricula=?, periodo=? WHERE id_discente=?",
+        [nome, email, matricula, periodo, req.params.id]
     );
 
     res.json({ mensagem: "Discente atualizado"});

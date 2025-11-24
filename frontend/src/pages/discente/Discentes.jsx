@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import "../../styles/Discentes.css";
+import "../../styles/discente/Discentes.css";
+import DiscenteCard from "../../components/DiscenteCard";
 
 export default function GerenciarDiscentes() {
     const [discentes, setDiscentes] = useState([]);
@@ -161,52 +162,14 @@ export default function GerenciarDiscentes() {
                 {discentes.length === 0 && <p>Nenhum discente cadastrado.</p>}
 
                 {discentes.map((d) => (
-                    <div key={d.id_discente} className="disc-card">
-                        <div className="disc-header">
-                            <h3>{d.nome}</h3>
-
-                            {d.e_Mentor === 1 ? (
-                                <span className="disc-tag mentor">Mentor</span>
-                            ) : (
-                                <span className="disc-tag aluno">Aluno</span>
-                            )}
-                        </div>
-
-                        <p><strong>Email:</strong> {d.email}</p>
-                        <p><strong>matricula:</strong> {d.matricula}</p>
-                        <p><strong>Período:</strong> {d.periodo}</p>
-
-                        <div className="disc-actions">
-                            <button className="btn-edit" onClick={() => editar(d)}>
-                                Editar
-                            </button>
-
-                            <button className="btn-remove" onClick={() => remover(d.id_discente)}>
-                                Remover
-                            </button>
-
-                            {!d.e_mentor && (
-                                <button
-                                    className="btn-mentor"
-                                    onClick={() => promover(d.id_discente)}>
-                                    Promover a Mentor
-                                </button>
-                            )}
-
-                            {d.e_mentor === 1 && (
-                                <>
-                                    <span className="tag-mentor">Mentor</span>
-                                    
-                                    <button
-                                        className="btn-rebaixar"
-                                        onClick={() => rebaixar(d.id_discente)}
-                                    >
-                                        Desvincular
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    </div>
+                    <DiscenteCard
+                        key={d.id_discente}
+                        discente={d}
+                        onEditar={editar}
+                        onRemover={remover}
+                        onPromover={promover}
+                        onRebaixar={rebaixar}
+                    />
                 ))}
             </div>
         </div>

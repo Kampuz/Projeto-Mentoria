@@ -110,15 +110,21 @@ export default function GerenciamentoOportunidades() {
 
             {/* Formulário */}
             <div className="op-form">
+                <label>Tipo de oportunidade:</label>
                 <select name="tipo" value={form.tipo} onChange={handleChange}>
                     <option value="estagio">Estágio</option>
                     <option value="bolsa">Bolsa</option>
                     <option value="outro">Outro</option>
                 </select>
 
-                <input name="titulo" placeholder="Título" value={form.titulo} onChange={handleChange} />
-                <textarea name="descricao" placeholder="Descrição" value={form.descricao} onChange={handleChange} />
-                <textarea name="requisitos" placeholder="Requisitos" value={form.requisitos} onChange={handleChange} />
+                <label>Título</label>
+                <input name="titulo" value={form.titulo} onChange={handleChange} />
+
+                <label>Descrição:</label>
+                <textarea name="descricao" value={form.descricao} onChange={handleChange} />
+
+                <label>Requisitos:</label>
+                <textarea name="requisitos" value={form.requisitos} onChange={handleChange} />
 
                 <label>Data de Publicação:</label>
                 <input type="date" name="data_publicacao" value={form.data_publicacao} onChange={handleChange} />
@@ -126,7 +132,8 @@ export default function GerenciamentoOportunidades() {
                 <label>Data Limite:</label>
                 <input type="date" name="data_limite" value={form.data_limite} onChange={handleChange} />
 
-                <input name="link" placeholder="Link" value={form.link} onChange={handleChange} />
+                <label>Link para publicação:</label>
+                <input name="link" value={form.link} onChange={handleChange} />
 
                 <button onClick={salvar}>
                     {form.id_oportunidade ? "Salvar Edição" : "Adicionar"}

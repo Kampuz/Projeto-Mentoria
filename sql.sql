@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS mentoria;
 CREATE DATABASE IF NOT EXISTS mentoria;
 USE mentoria;
 
@@ -8,7 +9,8 @@ CREATE TABLE discentes (
     id_discente INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
     email VARCHAR(150) UNIQUE,
-    matricula VARCHAR(50) UNIQUE
+    matricula VARCHAR(50) UNIQUE,
+    periodo INT
 );
 
 CREATE TABLE discentes_mentores (
