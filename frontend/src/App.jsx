@@ -20,6 +20,7 @@ import GerenciamentoAtividades from "./pages/atividade/AtividadesMentor";
 import PerfilUsuario from "./pages/perfil/Perfil";
 
 import GerenciamentoDisciplina from "./pages/disciplina/GerenciamentoDisciplina"
+import GerenciamentoRecados from "./pages/disciplina/GerenciamentoRecados"
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/perfil" element={<PerfilUsuario userId={localStorage.getItem("userId")} />} />
 
         <Route path="gerenciamento-disciplinas" element={<GerenciamentoDisciplina />} />
+        <Route path="gerenciamento-disciplinas/:id" element={<GerenciamentoRecados />} />
       </Routes>
     </>
   );

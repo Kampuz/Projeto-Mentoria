@@ -34,7 +34,7 @@ INSERT INTO atendimentos (id_atividade, tipo_atendimento, observacoes, id_mentor
 -- DISCIPLINAS
 -- ================================
 INSERT INTO disciplinas (nome, curso, professor) VALUES
-('Cálculo I', 'Computação', 'Prof. Mario'),
+('Cálculo I', 'Matemática', 'Prof. Mario'),
 ('Programação I', 'Computação', 'Dra. Luiza');
 
 INSERT INTO disciplina_recados (id_disciplina, tipo_evento, data_entrega, horario_prova, descricao) VALUES
