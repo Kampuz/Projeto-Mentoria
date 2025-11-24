@@ -9,8 +9,9 @@ CREATE TABLE discentes (
     id_discente INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
     email VARCHAR(150) UNIQUE,
+    senha VARCHAR(200),
     periodo INT NOT NULL DEFAULT 1,
-    matricula VARCHAR(50) UNIQUE
+    matricula VARCHAR(20) UNIQUE
 );
 
 CREATE TABLE discentes_mentores (
@@ -31,6 +32,15 @@ CREATE TABLE atividades (
     descricao TEXT,
     data DATETIME NOT NULL,
     local VARCHAR(100)
+);
+
+CREATE TABLE atividades_inscritos (
+    id_atividade INT,
+    id_discente INT,
+    data_inscricao DATE NOT NULL,
+    PRIMARY KEY(id_atividade, id_discente),
+    FOREIGN KEY (id_atividade) REFERENCES atividades(id_atividade),
+    FOREIGN KEY (id_discente) REFERENCES discentes(id_discente)
 );
 
 CREATE TABLE atividade_participantes (
