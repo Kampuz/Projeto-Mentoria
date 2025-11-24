@@ -5,10 +5,9 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/home/Home";
 import Login from "./pages/Login";
 import HomeMentor from "./pages/home/HomeMentor";
-import HomeDiscente from "./pages/discente/HomeDiscente"
+import HomeDiscente from "./pages/home/HomeDiscente"
 
-import ListaDiscentes from "./pages/discente/Discentes";
-import CadastroDiscente from "./pages/discente/CadastroDiscente";
+import Discentes from "./pages/discente/Discentes";
 
 import ListaMentores from "./pages/mentor/Mentores";
 import CadastroMentor from "./pages/mentor/GerenciamentoMentores";
@@ -27,8 +26,7 @@ export default function App() {
         <Route path="/discente" element={<HomeDiscente />} />
         <Route path="/mentor" element={<HomeMentor />} />
 
-        <Route path="/discentes" element={<ListaDiscentes />} />
-        <Route path="/cadastro-discente" element={<CadastroDiscente />} />
+        <Route path="/discentes" element={<Discentes />} />
 
         <Route path="/mentores" element={<ListaMentores />} />
         <Route path="/cadastro-mentor" element={<CadastroMentor />} />

@@ -5,10 +5,7 @@ export default function HomeMentor() {
     return (
         <div className="container">
             <Link className="link-btn" to="/discentes">
-                Lista de Discentes
-            </Link>
-            <Link className="link-btn" to="/cadastro-discente">
-                Cadastrar discente
+                Discentes
             </Link>
             <br/>
             <Link className="link-btn" to="/mentores">
