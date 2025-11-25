@@ -103,8 +103,8 @@ export default function Recados() {
             {recados.map(r => (
             <li key={r.id_evento} className="recados__item">
                 <strong>{r.tipo_evento}</strong>: {r.descricao}{" "}
-                {r.data_entrega && `- Entrega: ${new Date(r.data_entrega).toLocaleDateString("pt-BR")}`}{" "}
-                {r.horario_prova && `às ${r.horario_prova.slice(0, 5)}`}{" "}
+                {r.data && `- Data: ${new Date(r.data).toLocaleDateString("pt-BR")}`}{" "}
+                {r.horario && `às ${r.horario.slice(0, 5)}`}{" "}
                 {r.link_material && (
                 <a className="recados__link" href={r.link_material} target="_blank" rel="noreferrer">
                     Material

@@ -60,14 +60,12 @@ export default function Atividades() {
 
     function editar(a) {
 
-        const formatar = (d) => d ? d.split("T")[0] : "";
-
         setForm({
             id_atividade: a.id_atividade,
             tipo: a.tipo,
             descricao: a.descricao,
             local: a.local,
-            data: formatar(a.data),
+            data: a.data,
         });
 
         window.scrollTo({ top: 0, behavior: "smooth" })
@@ -117,7 +115,7 @@ export default function Atividades() {
                 <textarea name="local" value={form.local} onChange={handleChange} />
 
                 <label>Data:</label>
-                <input type="date" name="data" value={form.data} onChange={handleChange} />
+                <input type="date" name="data" value={new Date(form.data).toLocaleDateString("pt-BR")} onChange={handleChange} />
 
                 <button onClick={salvar}>
                     {form.id_atividade ? "Salvar Edição" : "Adicionar"}
@@ -146,7 +144,7 @@ export default function Atividades() {
                         <p className="op-desc">{a.descricao}</p>
 
                         <p><strong>Local:</strong> {a.local}</p>
-                        <p><strong>Data:</strong> {a.data.split("T")[0]}</p>
+                        <p><strong>Data:</strong> {new Date(a.data).toLocaleDateString("pt-BR")}</p>
 
                         <div className="op-actions">
                             <button className="btn-edit" onClick={() => editar(a)}>Editar</button>

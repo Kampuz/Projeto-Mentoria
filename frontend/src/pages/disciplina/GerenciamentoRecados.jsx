@@ -7,11 +7,11 @@ export default function GerenciamentoRecados() {
   const [disciplina, setDisciplina] = useState(null);
   const [recados, setRecados] = useState([]);
   const [recadoForm, setRecadoForm] = useState({
-    id_evento: null,
+    id_recado: null,
     tipo_evento: "trabalho",
     descricao: "",
-    data_entrega: "",
-    horario_prova: "",
+    data: "",
+    horario: "",
     link_material: "",
   });
 
@@ -37,21 +37,21 @@ export default function GerenciamentoRecados() {
 
   function limparFormulario() {
     setRecadoForm({
-      id_evento: null,
+      id_recado: null,
       tipo_evento: "trabalho",
       descricao: "",
-      data_entrega: "",
-      horario_prova: "",
+      data: "",
+      horario: "",
       link_material: "",
     });
   }
 
   // CRUD
   function salvarRecado() {
-    const url = recadoForm.id_evento
-      ? `http://localhost:3000/api/recados/${recadoForm.id_evento}`
+    const url = recadoForm.id_recado
+      ? `http://localhost:3000/api/recados/${recadoForm.id_recado}`
       : `http://localhost:3000/api/disciplinas/${id}/recados`;
-    const metodo = recadoForm.id_evento ? "PUT" : "POST";
+    const metodo = recadoForm.id_recado ? "PUT" : "POST";
 
     fetch(url, {
       method: metodo,
@@ -68,17 +68,22 @@ export default function GerenciamentoRecados() {
 
   function editarRecado(r) {
     setRecadoForm({
-      ...r,
-      data_entrega: r.data_entrega ? r.data_entrega.split("T")[0] : "",
-      horario_prova: r.horario_prova || "",
+      id_recado: r.id_recado,
+    tipo_evento: r.tipo_evento || "trabalho",
+    descricao: r.descricao || "",
+    data_entrega: r.data_entrega ? r.data_entrega.split("T")[0] : "",
+    horario_prova: r.horario_prova || "",
+    link_material: r.link_material || "",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function removerRecado(id_evento) {
+  function removerRecado(id_recado) {
     if (!confirm("Deseja remover este recado?")) return;
 
-    fetch(`http://localhost:3000/api/recado/${id_evento}`, { method: "DELETE" })
+    console.log(`${id_recado}`);
+
+    fetch(`http://localhost:3000/api/recados/${id_recado}`, { method: "DELETE" })
       .then(r => r.json())
       .then(d => {
         alert(d.message || "Removido");
@@ -107,19 +112,19 @@ export default function GerenciamentoRecados() {
         <textarea name="descricao" value={recadoForm.descricao} onChange={handleChange} />
 
         <label>Data de entrega:</label>
-        <input type="date" name="data_entrega" value={recadoForm.data_entrega} onChange={handleChange} />
+        <input type="date" name="data" value={recadoForm.data || ""} onChange={handleChange} />
 
         <label>Horário:</label>
-        <input type="time" name="horario_prova" value={recadoForm.horario_prova} onChange={handleChange} />
+        <input type="time" name="horario" value={recadoForm.horario || ""} onChange={handleChange} />
 
         <label>Link do material:</label>
         <input name="link_material" value={recadoForm.link_material} onChange={handleChange} />
 
         <button onClick={salvarRecado}>
-          {recadoForm.id_evento ? "Salvar Edição" : "Adicionar Recado"}
+          {recadoForm.id_recado ? "Salvar Edição" : "Adicionar Recado"}
         </button>
 
-        {recadoForm.id_evento && (
+        {recadoForm.id_recado && (
           <button type="button" className="cancelar-btn" onClick={limparFormulario}>
             Cancelar edição
           </button>
@@ -129,15 +134,16 @@ export default function GerenciamentoRecados() {
       {/* Lista de Recados */}
       <div className="op-list">
         {recados.length === 0 && <p>Nenhum recado cadastrado.</p>}
+
         {recados.map(r => (
-          <div key={r.id_evento} className="op-card">
-            <p><strong>{r.tipo_evento}</strong>: {r.descricao}</p>
-            {r.data_entrega && <p><strong>Entrega:</strong> {new Date(r.data_entrega).toLocaleDateString("pt-BR")}</p>}
-            {r.horario_prova && <p><strong>Horário:</strong> {r.horario_prova}</p>}
+          <div key={r.id_recado} className="op-card">
+            <p><strong>{r.tipo_recado}</strong>: {r.descricao}</p>
+            <p><strong>Entrega:</strong> {new Date(r.data).toLocaleDateString("pt-BR")}</p>
+            <p><strong>Horário:</strong> {r.horario}</p>
             {r.link_material && <a href={r.link_material} target="_blank" rel="noopener noreferrer">Material</a>}
             <div className="op-actions">
               <button className="btn-edit" onClick={() => editarRecado(r)}>Editar</button>
-              <button className="btn-remove" onClick={() => removerRecado(r.id_evento)}>Remover</button>
+              <button className="btn-remove" onClick={() => removerRecado(r.id_recado)}>Remover</button>
             </div>
           </div>
         ))}

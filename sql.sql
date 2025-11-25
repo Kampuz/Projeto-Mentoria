@@ -73,11 +73,11 @@ CREATE TABLE disciplinas (
 );
 
 CREATE TABLE disciplina_recados (
-    id_evento INT AUTO_INCREMENT PRIMARY KEY,
+    id_recado INT AUTO_INCREMENT PRIMARY KEY,
     id_disciplina INT,
     tipo_evento ENUM('trabalho','prova','ocorrencia','material') NOT NULL,
-    data_entrega DATE,
-    horario_prova TIME,
+    data DATE,
+    horario TIME,
     descricao TEXT,
     link_material VARCHAR(300),
     FOREIGN KEY (id_disciplina) REFERENCES disciplinas(id_disciplina)

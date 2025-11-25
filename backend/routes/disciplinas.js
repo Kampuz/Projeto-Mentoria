@@ -47,12 +47,18 @@ router.get("/:id/recados", async (req, res) => {
 
 // Criar recado para disciplina
 router.post("/:id/recados", async (req, res) => {
-    const { tipo_evento, descricao, data_entrega, horario_prova, link_material } = req.body;
-    await db.query(
-        "INSERT INTO disciplina_recados (id_disciplina, tipo_evento, descricao, data_entrega, horario_prova, link_material) VALUES (?, ?, ?, ?, ?, ?)",
-        [req.params.id, tipo_evento, descricao, data_entrega || null, horario_prova || null, link_material || null]
-    );
-    res.json({ message: "Recado criado com sucesso!" });
+    try {
+        const { tipo_evento, descricao, data, horario, link_material } = req.body;
+
+        await db.query(
+            "INSERT INTO disciplina_recados (id_disciplina, tipo_evento, descricao, data, horario, link_material) VALUES (?, ?, ?, ?, ?, ?)",
+            [req.params.id, tipo_evento, descricao, data, horario, link_material]
+        );
+        res.json({ message: "Recado criado com sucesso!" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Erro ao criar recado" });
+    }
 });
 
 export default router;

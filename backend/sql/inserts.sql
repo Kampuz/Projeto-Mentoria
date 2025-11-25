@@ -37,7 +37,7 @@ INSERT INTO disciplinas (nome, curso, professor) VALUES
 ('Cálculo I', 'Matemática', 'Prof. Mario'),
 ('Programação I', 'Computação', 'Dra. Luiza');
 
-INSERT INTO disciplina_recados (id_disciplina, tipo_evento, data_entrega, horario_prova, descricao) VALUES
+INSERT INTO disciplina_recados (id_disciplina, tipo_evento, data, horario, descricao) VALUES
 (1, 'trabalho', '2025-04-10', NULL, 'Lista 1 de exercícios'),
 (1, 'prova', NULL, '09:00:00', 'Prova 1 de Cálculo'),
 (2, 'material', NULL, NULL, 'PDF sobre estruturas de repetição');
