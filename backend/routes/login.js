@@ -60,7 +60,9 @@ router.post("/login", async (req, res) => {
       user: {
         id: user.id_mentor || user.id_discente,
         nome: user.nome,
-        tipo
+        email: user.email,
+        matricula: user.matricula,
+        periodo: user.periodo
       }
     });
   } catch (err) {

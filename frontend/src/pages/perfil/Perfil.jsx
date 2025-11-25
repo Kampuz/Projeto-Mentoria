@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import "../../styles/Perfil.css"
+
 export default function Perfil() {
   const [user, setUser] = useState(null);
   const [participacoes, setParticipacoes] = useState([]);
+  const [disciplinas, setDisciplinas] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,7 +14,9 @@ export default function Perfil() {
 
     if (storedUser) {
       setUser(storedUser);
+
       carregarParticipacoes(storedUser.id);
+      carregarDisciplinas(storedUser.id);
     } else {
       navigate("/login");
     }
@@ -21,6 +26,13 @@ export default function Perfil() {
     fetch(`http://localhost:3000/api/discentes/${idDiscente}/participacoes`)
       .then(res => res.json())
       .then(setParticipacoes)
+      .catch(err => console.error(err));
+  }
+
+  function carregarDisciplinas(idDiscente) {
+    fetch(`http://localhost:3000/api/discentes/${idDiscente}/disciplinas`)
+      .then(res => res.json())
+      .then(setDisciplinas)
       .catch(err => console.error(err));
   }
 
@@ -42,6 +54,20 @@ export default function Perfil() {
         {user.matricula && <p><strong>Matrícula:</strong> {user.matricula}</p>}
         {user.periodo && <p><strong>Período:</strong> {user.periodo}</p>}
       </div>
+
+      <h2>Disciplinas Seguidas</h2>
+
+      {disciplinas.length === 0 ? (
+        <p>Você não segue nenhuma disciplina.</p>
+      ) : (
+        <ul className="disciplinas-list">
+          {disciplinas.map(d => (
+            <li key={d.id_disciplina} className="disciplina-item">
+              <strong>{d.nome}</strong> — {d.professor}
+            </li>
+          ))}
+        </ul>
+      )}
 
       <h2>Participações</h2>
 
