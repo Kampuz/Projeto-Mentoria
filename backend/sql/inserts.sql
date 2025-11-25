@@ -19,13 +19,13 @@ INSERT INTO atividades (titulo, tipo, descricao, data, local) VALUES
 ('Palestra sobre mercado de tecnologia', 'palestra', 'Palestra com profissional da área de TI', '2025-03-12 15:00:00', 'Auditório');
 
 -- Participantes
-INSERT INTO atividade_participantes (id_atividade, id_discente, papel) VALUES
-(1, 2, 'participante'),
-(2, 1, 'participante'),
-(2, 2, 'participante'),
-(2, 3, 'participante'),
-(3, 1, 'inscrito'),
-(3, 2, 'inscrito');
+INSERT INTO atividades_participantes (id_atividade, id_discente, papel, data_inscricao) VALUES
+(1, 2, 'participante', curdate()),
+(2, 1, 'participante', curdate()),
+(2, 2, 'participante', curdate()),
+(2, 3, 'participante', curdate()),
+(3, 1, 'inscrito', curdate()),
+(3, 2, 'inscrito', curdate());
 
 -- Atendimento
 INSERT INTO atendimentos (id_atividade, tipo_atendimento, observacoes, id_mentor_responsavel) VALUES
@@ -37,10 +37,10 @@ INSERT INTO disciplinas (nome, curso, professor) VALUES
 ('Cálculo I', 'Matemática', 'Prof. Mario'),
 ('Programação I', 'Computação', 'Dra. Luiza');
 
-INSERT INTO disciplina_recados (id_disciplina, tipo_evento, data, horario, descricao) VALUES
-(1, 'trabalho', '2025-04-10', NULL, 'Lista 1 de exercícios'),
-(1, 'prova', NULL, '09:00:00', 'Prova 1 de Cálculo'),
-(2, 'material', NULL, NULL, 'PDF sobre estruturas de repetição');
+INSERT INTO disciplina_recados (id_disciplina, tipo_evento, data, descricao) VALUES
+(1, 'trabalho', '2025-03-10 14:00:00', 'Lista 1 de exercícios'),
+(1, 'prova', '2025-03-10 14:00:00', 'Prova 1 de Cálculo'),
+(2, 'material', '2025-03-10 14:00:00', 'PDF sobre estruturas de repetição');
 
 -- ================================
 -- OPORTUNIDADES
@@ -53,15 +53,3 @@ INSERT INTO oportunidades_inscritos (id_oportunidade, id_discente, data_inscrica
 (1, 1, '2025-03-10'),
 (1, 2, '2025-03-12'),
 (2, 3, '2025-03-15');
-
--- ================================
--- FÓRUM
--- ================================
-INSERT INTO forum_topicos (titulo, categoria, id_disciplina, criado_por) VALUES
-('Dúvidas sobre derivadas', 'disciplina', 1, 2),
-('Como estudar programação?', 'geral', NULL, 3);
-
-INSERT INTO forum_mensagens (id_topico, id_discente, mensagem) VALUES
-(1, 1, 'Comece revisando os limites.'),
-(1, 2, 'Obrigado! Isso ajudou.'),
-(2, 3, 'Pratique exercícios todos os dias.');

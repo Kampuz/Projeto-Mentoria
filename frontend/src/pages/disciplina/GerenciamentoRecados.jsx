@@ -8,10 +8,9 @@ export default function GerenciamentoRecados() {
   const [recados, setRecados] = useState([]);
   const [recadoForm, setRecadoForm] = useState({
     id_recado: null,
-    tipo_evento: "trabalho",
+    tipo_recado: "trabalho",
     descricao: "",
     data: "",
-    horario: "",
     link_material: "",
   });
 
@@ -38,10 +37,9 @@ export default function GerenciamentoRecados() {
   function limparFormulario() {
     setRecadoForm({
       id_recado: null,
-      tipo_evento: "trabalho",
+      tipo_recado: "trabalho",
       descricao: "",
       data: "",
-      horario: "",
       link_material: "",
     });
   }
@@ -69,10 +67,9 @@ export default function GerenciamentoRecados() {
   function editarRecado(r) {
     setRecadoForm({
       id_recado: r.id_recado,
-    tipo_evento: r.tipo_evento || "trabalho",
+    tipo_recado: r.tipo_recado || "trabalho",
     descricao: r.descricao || "",
-    data_entrega: r.data_entrega ? r.data_entrega.split("T")[0] : "",
-    horario_prova: r.horario_prova || "",
+    data_reacado: r.data ? r.data.replace("Z", "").slice(0, 16) : "",
     link_material: r.link_material || "",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -100,8 +97,8 @@ export default function GerenciamentoRecados() {
 
       {/* Formulário de Recado */}
       <div className="op-form">
-        <label>Tipo de evento:</label>
-        <select name="tipo_evento" value={recadoForm.tipo_evento} onChange={handleChange}>
+        <label>Tipo de recado:</label>
+        <select name="tipo_recado" value={recadoForm.tipo_recado} onChange={handleChange}>
           <option value="trabalho">Trabalho</option>
           <option value="prova">Prova</option>
           <option value="ocorrencia">Ocorrência</option>
@@ -112,10 +109,7 @@ export default function GerenciamentoRecados() {
         <textarea name="descricao" value={recadoForm.descricao} onChange={handleChange} />
 
         <label>Data de entrega:</label>
-        <input type="date" name="data" value={recadoForm.data || ""} onChange={handleChange} />
-
-        <label>Horário:</label>
-        <input type="time" name="horario" value={recadoForm.horario || ""} onChange={handleChange} />
+        <input type="datetime-local" name="data" value={recadoForm.data || ""} onChange={handleChange} />
 
         <label>Link do material:</label>
         <input name="link_material" value={recadoForm.link_material} onChange={handleChange} />
@@ -139,7 +133,6 @@ export default function GerenciamentoRecados() {
           <div key={r.id_recado} className="op-card">
             <p><strong>{r.tipo_recado}</strong>: {r.descricao}</p>
             <p><strong>Entrega:</strong> {new Date(r.data).toLocaleDateString("pt-BR")}</p>
-            <p><strong>Horário:</strong> {r.horario}</p>
             {r.link_material && <a href={r.link_material} target="_blank" rel="noopener noreferrer">Material</a>}
             <div className="op-actions">
               <button className="btn-edit" onClick={() => editarRecado(r)}>Editar</button>

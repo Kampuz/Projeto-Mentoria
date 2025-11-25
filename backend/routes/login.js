@@ -1,18 +1,24 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import db from "../db.js"; // sua conexão MySQL
+import db from "../db.js";
 
 const router = express.Router();
 
-// Cadastro de usuário
+// CADASTRO
 router.post("/register", async (req, res) => {
   const { nome, email, senha, tipo } = req.body;
-  if (!nome || !email || !senha ) return res.status(400).json({ message: "Todos os campos são obrigatórios" });
+
+  if (!nome || !email || !senha)
+    return res.status(400).json({ message: "Todos os campos são obrigatórios" });
 
   try {
-    const hash = await bcrypt.hash(senha, 10); // hash da senha
+    const hash = await bcrypt.hash(senha, 10);
 
-    await db.query("INSERT INTO discentes (nome, email, senha) VALUES (?, ?, ?)", [nome, email, hash]);
+    await db.query("CALL sp_registrar_discente(?, ?, ?)", [
+      nome,
+      email,
+      hash
+    ]);
 
     res.json({ message: "Cadastro realizado com sucesso!" });
   } catch (err) {
@@ -21,33 +27,41 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login
+// LOGIN
 router.post("/login", async (req, res) => {
   const { email, senha, tipo } = req.body;
-  if (!email || !senha || !tipo) return res.status(400).json({ message: "Email e senha são obrigatórios" });
+
+  if (!email || !senha || !tipo)
+    return res.status(400).json({ message: "Email e senha são obrigatórios" });
 
   try {
-
     let rows = [];
-    // Primeiro tenta buscar no mentores
-    if(tipo === "mentor") {
-        [rows] = await db.query("SELECT * FROM mentores WHERE email = ?", [email]);
+
+    if (tipo === "mentor") {
+      [rows] = await db.query("CALL sp_login_mentor(?)", [email]);
     } else {
-      // Tenta buscar no discentes
-      [rows] = await db.query("SELECT * FROM discentes WHERE email = ?", [email]);
+      [rows] = await db.query("CALL sp_login_discente(?)", [email]);
     }
 
-    if (rows.length === 0) return res.status(400).json({ message: "Usuário não encontrado" });
+    const userRows = rows[0]; // MySQL retorna dentro do índice 0
 
-    const user = rows[0];
+    if (userRows.length === 0)
+      return res.status(400).json({ message: "Usuário não encontrado" });
+
+    const user = userRows[0];
 
     const senhaValida = await bcrypt.compare(senha, user.senha);
-    if (!senhaValida) return res.status(400).json({ message: "Senha incorreta" });
 
-    // Retorna usuário
+    if (!senhaValida)
+      return res.status(400).json({ message: "Senha incorreta" });
+
     res.json({
       message: "Login realizado com sucesso!",
-      user: { id: user.id_mentor || user.id_discente, nome: user.nome, tipo }
+      user: {
+        id: user.id_mentor || user.id_discente,
+        nome: user.nome,
+        tipo
+      }
     });
   } catch (err) {
     console.error(err);

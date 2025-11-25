@@ -3,65 +3,41 @@ import db from "../db.js";
 
 const router = express.Router();
 
-/*
-    TABELA:
-    discentes_mentores(
-        id_mentor INT PK (FK para discentes.id_discente),
-        area_atuacao VARCHAR(150),
-        bio TEXT,
-        disponibilidade TEXT
-    )
-*/
-
-// LISTAR TODOS OS MENTORES
+// LISTAR
 router.get("/", async (req, res) => {
-    const [rows] = await db.query(`
-        SELECT 
-            dm.id_mentor,
-            d.nome AS nome_discente,
-            d.email AS email_discente,
-            dm.area_atuacao,
-            dm.bio,
-            dm.disponibilidade
-        FROM discentes_mentores dm
-        JOIN discentes d ON dm.id_mentor = d.id_discente
-    `);
-
-    res.json(rows);
+    try {
+        const [rows] = await db.query("CALL sp_listar_mentores()");
+        res.json(rows[0]);
+    } catch (err) {
+        res.status(500).json({ erro: "Erro ao listar mentores." });
+    }
 });
 
-// OBTER MENTOR ESPECÍFICO
+// OBTER UM
 router.get("/:id", async (req, res) => {
-    const { id } = req.params;
+    try {
+        const [rows] = await db.query("CALL sp_obter_mentor(?)", [req.params.id]);
 
-    const [rows] = await db.query(`
-        SELECT 
-            dm.id_mentor,
-            d.nome AS nome_discente,
-            d.email AS email_discente,
-            dm.area_atuacao,
-            dm.bio,
-            dm.disponibilidade
-        FROM discentes_mentores dm
-        JOIN discentes d ON dm.id_mentor = d.id_discente
-        WHERE dm.id_mentor = ?
-    `, [id]);
+        if (rows[0].length === 0)
+            return res.status(404).json({ mensagem: "Mentor não encontrado." });
 
-    if (rows.length === 0)
-        return res.status(404).json({ mensagem: "Mentor não encontrado." });
-
-    res.json(rows[0]);
+        res.json(rows[0][0]);
+    } catch (err) {
+        res.status(500).json({ erro: "Erro ao buscar mentor." });
+    }
 });
 
-// CRIAR UM MENTOR
+// CRIAR
 router.post("/", async (req, res) => {
     const { id_mentor, area_atuacao, bio, disponibilidade } = req.body;
 
     try {
-        await db.query(`
-            INSERT INTO discentes_mentores (id_mentor, area_atuacao, bio, disponibilidade)
-            VALUES (?, ?, ?, ?)
-        `, [id_mentor, area_atuacao, bio, disponibilidade]);
+        await db.query("CALL sp_criar_mentor(?, ?, ?, ?)", [
+            id_mentor,
+            area_atuacao,
+            bio,
+            disponibilidade
+        ]);
 
         res.json({ mensagem: "Mentor criado com sucesso." });
 
@@ -73,23 +49,34 @@ router.post("/", async (req, res) => {
     }
 });
 
-// EDITAR UM MENTOR
+// EDITAR
 router.put("/:id", async (req, res) => {
     const { area_atuacao, bio, disponibilidade } = req.body;
 
-    await db.query(`
-        UPDATE discentes_mentores
-        SET area_atuacao = ?, bio = ?, disponibilidade = ?
-        WHERE id_mentor = ?
-    `, [area_atuacao, bio, disponibilidade, req.params.id]);
+    try {
+        await db.query("CALL sp_atualizar_mentor(?, ?, ?, ?)", [
+            req.params.id,
+            area_atuacao,
+            bio,
+            disponibilidade
+        ]);
 
-    res.json({ mensagem: "Mentor atualizado com sucesso." });
+        res.json({ mensagem: "Mentor atualizado com sucesso." });
+
+    } catch (err) {
+        res.status(500).json({ erro: "Erro ao atualizar mentor." });
+    }
 });
 
-// REMOVER MENTOR
+// REMOVER
 router.delete("/:id", async (req, res) => {
-    await db.query("DELETE FROM discentes_mentores WHERE id_mentor = ?", [req.params.id]);
-    res.json({ mensagem: "Mentor removido com sucesso." });
+    try {
+        await db.query("CALL sp_remover_mentor(?)", [req.params.id]);
+        res.json({ mensagem: "Mentor removido com sucesso." });
+
+    } catch (err) {
+        res.status(500).json({ erro: "Erro ao remover mentor." });
+    }
 });
 
 export default router;

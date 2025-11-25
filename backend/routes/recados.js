@@ -1,21 +1,27 @@
 import express from "express";
-import db from "../db.js"; 
+import db from "../db.js";
 
 const router = express.Router();
 
-// Atualizar recado
+// Atualizar recado via procedure
 router.put("/:id_recado", async (req, res) => {
-    const { tipo_evento, descricao, data, horario, link_material } = req.body;
+    const { id_recado } = req.params;
+    const { tipo_recado, descricao, data, link_material } = req.body;
+
     await db.query(
-        "UPDATE disciplina_recados SET tipo_evento=?, descricao=?, data=?, horario=?, link_material=? WHERE id_recado=?",
-        [tipo_evento, descricao, data, horario, link_material, req.params.id_recado]
+        "CALL sp_atualizar_recado(?, ?, ?, ?, ?)",
+        [id_recado, tipo_recado, descricao, data, link_material]
     );
+
     res.json({ message: "Recado atualizado com sucesso!" });
 });
 
-// Remover recado
+// Remover recado via procedure
 router.delete("/:id_recado", async (req, res) => {
-    await db.query("DELETE FROM disciplina_recados WHERE id_recado=?", [req.params.id_recado]);
+    const { id_recado } = req.params;
+
+    await db.query("CALL sp_remover_recado(?)", [id_recado]);
+
     res.json({ message: "Recado removido com sucesso!" });
 });
 

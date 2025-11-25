@@ -1,5 +1,28 @@
+DROP DATABASE mentoria;
 CREATE DATABASE IF NOT EXISTS mentoria;
 USE mentoria;
+
+
+DROP TABLE IF EXISTS forum_mensagens;
+DROP TABLE IF EXISTS forum_topicos;
+
+DROP TABLE IF EXISTS oportunidades_inscritos;
+DROP TABLE IF EXISTS oportunidades;
+
+DROP TABLE IF EXISTS eventos_gerais;
+
+DROP TABLE IF EXISTS disciplina_recados;
+DROP TABLE IF EXISTS disciplina_alunos;
+DROP TABLE IF EXISTS disciplinas;
+
+DROP TABLE IF EXISTS atividade_participantes;
+DROP TABLE IF EXISTS atividades_inscritos;
+DROP TABLE IF EXISTS atendimentos;
+DROP TABLE IF EXISTS atividades;
+
+DROP TABLE IF EXISTS discentes_mentores;
+DROP TABLE IF EXISTS discentes;
+
 
 -- ================================
 -- 1. DISCENTES
@@ -8,10 +31,9 @@ CREATE TABLE discentes (
     id_discente INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
     email VARCHAR(150) UNIQUE,
-    curso VARCHAR(100),
+    senha VARCHAR(200),
     periodo VARCHAR(20),
-    matricula VARCHAR(50) UNIQUE,
-    telefone VARCHAR(30)
+    matricula VARCHAR(50) UNIQUE
 );
 
 CREATE TABLE discentes_mentores (
@@ -20,6 +42,7 @@ CREATE TABLE discentes_mentores (
     bio TEXT,
     disponibilidade TEXT,
     FOREIGN KEY (id_mentor) REFERENCES discentes(id_discente)
+		ON DELETE CASCADE
 );
 
 -- ================================
@@ -27,27 +50,36 @@ CREATE TABLE discentes_mentores (
 -- ================================
 CREATE TABLE atividades (
     id_atividade INT AUTO_INCREMENT PRIMARY KEY,
-    data DATE NOT NULL,
+    titulo TEXT,
+    data DATETIME NOT NULL,
+    local TEXT,
     descricao TEXT,
     tipo ENUM('atendimento','reuniao','palestra','outro') NOT NULL
 );
 
-CREATE TABLE atividade_participantes (
+CREATE TABLE atividades_participantes (
     id_atividade INT,
     id_discente INT,
-    papel ENUM('participante','inscrito'),
+    data_inscricao DATETIME NOT NULL,
+    papel ENUM('inscrito', 'participante') NOT NULL,
     PRIMARY KEY(id_atividade, id_discente),
-    FOREIGN KEY (id_atividade) REFERENCES atividades(id_atividade),
+    FOREIGN KEY (id_atividade) REFERENCES atividades(id_atividade)
+		ON DELETE CASCADE,
     FOREIGN KEY (id_discente) REFERENCES discentes(id_discente)
+		ON DELETE CASCADE
 );
+
 
 CREATE TABLE atendimentos (
     id_atendimento INT AUTO_INCREMENT PRIMARY KEY,
     id_atividade INT UNIQUE,
+    id_mentor_responsavel INT,
     tipo_atendimento ENUM('individual','coletivo') NOT NULL,
-    hora TIME,
     observacoes TEXT,
     FOREIGN KEY (id_atividade) REFERENCES atividades(id_atividade)
+		ON DELETE CASCADE,
+    FOREIGN KEY (id_mentor_responsavel) REFERENCES discentes_mentores(id_mentor)
+		ON DELETE CASCADE
 );
 
 -- ================================
@@ -60,15 +92,23 @@ CREATE TABLE disciplinas (
     professor VARCHAR(150)
 );
 
-CREATE TABLE disciplina_eventos (
-    id_evento INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE disciplina_alunos (
+    id_discente INT,
     id_disciplina INT,
-    tipo_evento ENUM('trabalho','prova','ocorrencia','material') NOT NULL,
-    data_entrega DATE,
-    horario_prova TIME,
+    PRIMARY KEY(id_discente, id_disciplina),
+    FOREIGN KEY (id_discente) REFERENCES discentes(id_discente),
+    FOREIGN KEY (id_disciplina) REFERENCES disciplinas(id_disciplina)
+);
+
+CREATE TABLE disciplina_recados (
+    id_recado INT AUTO_INCREMENT PRIMARY KEY,
+    id_disciplina INT,
+    tipo_recado ENUM('trabalho','prova','ocorrencia','material') NOT NULL,
+    data DATETIME,
     descricao TEXT,
     link_material VARCHAR(300),
     FOREIGN KEY (id_disciplina) REFERENCES disciplinas(id_disciplina)
+		ON DELETE CASCADE
 );
 
 -- ================================
@@ -92,8 +132,8 @@ CREATE TABLE oportunidades (
     titulo VARCHAR(200) NOT NULL,
     descricao TEXT,
     requisitos TEXT,
-    data_publicacao DATE,
-    data_limite DATE,
+    data_publicacao DATETIME,
+    data_limite DATETIME,
     link VARCHAR(300)
 );
 
@@ -102,30 +142,8 @@ CREATE TABLE oportunidades_inscritos (
     id_discente INT,
     data_inscricao DATE NOT NULL,
     PRIMARY KEY(id_oportunidade, id_discente),
-    FOREIGN KEY (id_oportunidade) REFERENCES oportunidades(id_oportunidade),
+    FOREIGN KEY (id_oportunidade) REFERENCES oportunidades(id_oportunidade)
+		ON DELETE CASCADE,
     FOREIGN KEY (id_discente) REFERENCES discentes(id_discente)
-);
-
--- ================================
--- 6. FÓRUM (DÚVIDAS E DISCUSSÃO)
--- ================================
-CREATE TABLE forum_topicos (
-    id_topico INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(200) NOT NULL,
-    categoria ENUM('geral','disciplina','bolsas') NOT NULL,
-    id_disciplina INT,
-    criado_por INT NOT NULL,
-    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_disciplina) REFERENCES disciplinas(id_disciplina),
-    FOREIGN KEY (criado_por) REFERENCES discentes(id_discente)
-);
-
-CREATE TABLE forum_mensagens (
-    id_mensagem INT AUTO_INCREMENT PRIMARY KEY,
-    id_topico INT NOT NULL,
-    id_discente INT NOT NULL,
-    mensagem TEXT NOT NULL,
-    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_topico) REFERENCES forum_topicos(id_topico),
-    FOREIGN KEY (id_discente) REFERENCES discentes(id_discente)
+		ON DELETE CASCADE
 );

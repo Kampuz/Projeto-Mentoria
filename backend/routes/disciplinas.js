@@ -1,64 +1,73 @@
 import express from "express";
-import db from "../db.js"; 
+import db from "../db.js";
 
 const router = express.Router();
 
-// Listar todas as disciplinas
+// LISTAR TODAS
 router.get("/", async (req, res) => {
-    const [rows] = await db.query("SELECT * FROM disciplinas");
-    res.json(rows);
+    const [rows] = await db.query("CALL sp_listar_disciplinas()");
+    res.json(rows[0]); // MySQL retorna dentro do índice 0
 });
 
-// Obter disciplina específica
+// OBTER UMA
 router.get("/:id", async (req, res) => {
-    const [rows] = await db.query("SELECT * FROM disciplinas WHERE id_disciplina = ?", [req.params.id]);
-    res.json(rows[0]);
+    const [rows] = await db.query("CALL sp_obter_disciplina(?)", [req.params.id]);
+    res.json(rows[0][0] || null);
 });
 
-// Criar disciplina
+// CRIAR
 router.post("/", async (req, res) => {
     const { nome, curso, professor } = req.body;
-    await db.query("INSERT INTO disciplinas (nome, curso, professor) VALUES (?, ?, ?)", [nome, curso, professor]);
+
+    await db.query(
+        "CALL sp_criar_disciplina(?, ?, ?)",
+        [nome, curso, professor]
+    );
+
     res.json({ message: "Disciplina criada com sucesso!" });
 });
 
-// Atualizar disciplina
+// ATUALIZAR
 router.put("/:id", async (req, res) => {
     const { nome, curso, professor } = req.body;
-    await db.query("UPDATE disciplinas SET nome=?, curso=?, professor=? WHERE id_disciplina=?", [nome, curso, professor, req.params.id]);
+
+    await db.query(
+        "CALL sp_atualizar_disciplina(?, ?, ?, ?)",
+        [req.params.id, nome, curso, professor]
+    );
+
     res.json({ message: "Disciplina atualizada com sucesso!" });
 });
 
-// Remover disciplina
+// REMOVER
 router.delete("/:id", async (req, res) => {
-    await db.query("DELETE FROM disciplinas WHERE id_disciplina=?", [req.params.id]);
+    await db.query("CALL sp_remover_disciplina(?)", [req.params.id]);
     res.json({ message: "Disciplina removida com sucesso!" });
 });
 
-
-// Listar recados de uma disciplina
+// LISTAR RECADOS
 router.get("/:id/recados", async (req, res) => {
-    const [rows] = await db.query(
-        "SELECT * FROM disciplina_recados WHERE id_disciplina = ?",
-        [req.params.id]
-    );
-    res.json(rows);
+    const [rows] = await db.query("CALL sp_listar_recados(?)", [req.params.id]);
+    res.json(rows[0]);
 });
 
-// Criar recado para disciplina
+// CRIAR RECADO
 router.post("/:id/recados", async (req, res) => {
-    try {
-        const { tipo_evento, descricao, data, horario, link_material } = req.body;
+    const { id } = req.params;
+    const { tipo_recado, descricao, data, link_material } = req.body;
 
-        await db.query(
-            "INSERT INTO disciplina_recados (id_disciplina, tipo_evento, descricao, data, horario, link_material) VALUES (?, ?, ?, ?, ?, ?)",
-            [req.params.id, tipo_evento, descricao, data, horario, link_material]
-        );
-        res.json({ message: "Recado criado com sucesso!" });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Erro ao criar recado" });
-    }
+    await db.query(
+        "CALL sp_criar_recado(?, ?, ?, ?, ?)",
+        [
+            id,
+            tipo_recado,
+            descricao,
+            data,
+            link_material
+        ]
+    );
+
+    res.json({ message: "Recado criado com sucesso!" });
 });
 
 export default router;

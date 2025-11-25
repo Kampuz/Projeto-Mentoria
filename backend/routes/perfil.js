@@ -3,32 +3,26 @@ import db from "../db.js";
 
 const router = express.Router();
 
-// GET perfil do usuário
+// GET perfil completo do usuário usando procedure
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
 
     try {
-        // Buscar dados do discente
-        const [discenteRows] = await db.query(
-            "SELECT id_discente, nome, email, periodo, matricula FROM discentes WHERE id_discente = ?",
-            [id]
-        );
+        // Executa a procedure
+        const [resultSets] = await db.query("CALL sp_buscar_perfil(?)", [id]);
 
-        if (!discenteRows.length) return res.status(404).json({ mensagem: "Usuário não encontrado" });
+        // MySQL retorna resultados em arrays encadeados:
+        const discenteRows = resultSets[0];       // Primeiro SELECT
+        const mentorRows = resultSets[1];         // Segundo SELECT
+
+        if (!discenteRows.length)
+            return res.status(404).json({ mensagem: "Usuário não encontrado" });
 
         const usuario = discenteRows[0];
-
-        // Se for mentor, buscar dados de mentor
-        let mentorInfo = null;
-        if (usuario.eh_mentor) {
-            const [mentorRows] = await db.query(
-                "SELECT id_mentor, area_atuacao, bio FROM mentores WHERE id_mentor = ?",
-                [id]
-            );
-            if (mentorRows.length) mentorInfo = mentorRows[0];
-        }
+        const mentorInfo = mentorRows.length ? mentorRows[0] : null;
 
         res.json({ usuario, mentorInfo });
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ erro: "Erro ao buscar perfil" });

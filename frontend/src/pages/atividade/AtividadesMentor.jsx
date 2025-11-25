@@ -4,8 +4,10 @@ import "../../styles/atividade/AtividadeMentor.css";
 export default function GerenciamentoAtividades() {
     const [atividades, setAtividades] = useState([]);
     const [discentes, setDiscentes] = useState([]);
+
     const [form, setForm] = useState({
         id_atividade: null,
+        id_atendimento: null,     // <── ADICIONADO
         titulo: "",
         tipo: "atendimento",
         descricao: "",
@@ -14,7 +16,7 @@ export default function GerenciamentoAtividades() {
         tipo_atendimento: "individual",
         observacoes: "",
         id_mentor_responsavel: "",
-        participantes: [] // [{ id_discente, papel }]
+        participantes: []
     });
 
     useEffect(() => {
@@ -53,57 +55,76 @@ export default function GerenciamentoAtividades() {
         });
     }
 
+    // ──────────────────────────────────────────────────────────
+    // SALVAR ATIVIDADE + ATENDIMENTO
+    // ──────────────────────────────────────────────────────────
     async function salvar() {
         const { participantes, tipo_atendimento, observacoes, id_mentor_responsavel, ...atividadeData } = form;
-        let url, metodo;
 
+        let urlAtividade, metodoAtividade;
+
+        // Criar ou atualizar atividade
         if (form.id_atividade) {
-            url = `http://localhost:3000/api/atividades/${form.id_atividade}`;
-            metodo = "PUT";
+            urlAtividade = `http://localhost:3000/api/atividades/${form.id_atividade}`;
+            metodoAtividade = "PUT";
         } else {
-            url = "http://localhost:3000/api/atividades";
-            metodo = "POST";
+            urlAtividade = "http://localhost:3000/api/atividades";
+            metodoAtividade = "POST";
         }
 
-        const resp = await fetch(url, {
-            method: metodo,
+        const resp = await fetch(urlAtividade, {
+            method: metodoAtividade,
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(atividadeData)
         });
+
         const resultado = await resp.json();
         const id_atividade = form.id_atividade || resultado.id;
 
-        // Salvar participantes
-        for (let p of participantes) {
-            await fetch(`http://localhost:3000/api/atividades/${id_atividade}/participacao`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id_discente: p.id_discente, papel: p.papel })
-            });
+        // Se não for atendimento, acabou
+        if (atividadeData.tipo !== "atendimento") {
+            alert("Atividade salva com sucesso!");
+            limparFormulario();
+            carregarAtividades();
+            return;
         }
 
-        // Salvar atendimento se for tipo atendimento
-        if (atividadeData.tipo === "atendimento") {
-            await fetch(`http://localhost:3000/api/atendimentos`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ 
-                    id_atividade,
-                    tipo_atendimento, 
-                    observacoes, 
-                    id_mentor_responsavel
-                })
-            });
+        // A partir daqui é atendimento
+        let urlAt, metodoAt;
+
+        if (form.id_atendimento) {
+            urlAt = `http://localhost:3000/api/atendimentos/${form.id_atendimento}`;
+            metodoAt = "PUT";
+        } else {
+            urlAt = "http://localhost:3000/api/atendimentos";
+            metodoAt = "POST";
         }
 
-        alert("Atividade salva com sucesso!");
+        const respAt = await fetch(urlAt, {
+            method: metodoAt,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id_atividade,
+                tipo_atendimento,
+                observacoes,
+                id_mentor_responsavel
+            })
+        });
+
+        await respAt.json();
+
+        alert("Atendimento salvo com sucesso!");
         limparFormulario();
         carregarAtividades();
     }
 
+    // ──────────────────────────────────────────────────────────
+    // FORM RESET
+    // ──────────────────────────────────────────────────────────
     function limparFormulario() {
         setForm({
             id_atividade: null,
+            id_atendimento: null,  // <── RESETADO
             titulo: "",
             tipo: "atendimento",
             descricao: "",
@@ -116,19 +137,24 @@ export default function GerenciamentoAtividades() {
         });
     }
 
+    // ──────────────────────────────────────────────────────────
+    // EDITAR
+    // ──────────────────────────────────────────────────────────
     function editar(atividade) {
         setForm({
             id_atividade: atividade.id_atividade,
+            id_atendimento: atividade.id_atendimento || null,  // <── ESSENCIAL
             titulo: atividade.titulo,
             tipo: atividade.tipo,
             descricao: atividade.descricao,
-            data: atividade.data ? atividade.data.split("T")[0] : "",
+            data: atividade.data ? atividade.data.slice(0, 16) : "",
             local: atividade.local,
             tipo_atendimento: atividade.tipo_atendimento || "individual",
             observacoes: atividade.observacoes || "",
             id_mentor_responsavel: atividade.id_mentor_responsavel || "",
             participantes: atividade.participantes || []
         });
+
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -138,6 +164,9 @@ export default function GerenciamentoAtividades() {
         carregarAtividades();
     }
 
+    // ──────────────────────────────────────────────────────────
+    // JSX
+    // ──────────────────────────────────────────────────────────
     return (
         <div className="op-container">
             <h1>Gerenciamento de Atividades</h1>
@@ -159,7 +188,7 @@ export default function GerenciamentoAtividades() {
                 <textarea name="descricao" value={form.descricao} onChange={handleChange} />
 
                 <label>Data:</label>
-                <input type="date" name="data" value={form.data} onChange={handleChange} />
+                <input type="datetime-local" name="data" value={form.data} onChange={handleChange} />
 
                 <label>Local:</label>
                 <input name="local" value={form.local} onChange={handleChange} />
@@ -184,18 +213,6 @@ export default function GerenciamentoAtividades() {
                         </select>
                     </>
                 )}
-
-                <h4>Participantes:</h4>
-                {discentes.map(d => (
-                    <div key={d.id_discente}>
-                        <input
-                            type="checkbox"
-                            checked={!!form.participantes.find(p => p.id_discente === d.id_discente)}
-                            onChange={e => handleParticipanteChange(d.id_discente, e.target.checked ? "participante" : "inscrito")}
-                        />
-                        {d.nome}
-                    </div>
-                ))}
 
                 <button onClick={salvar}>
                     {form.id_atividade ? "Salvar Edição" : "Adicionar"}

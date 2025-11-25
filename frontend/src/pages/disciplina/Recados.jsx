@@ -101,10 +101,14 @@ export default function Recados() {
         ) : (
         <ul className="recados__list">
             {recados.map(r => (
-            <li key={r.id_evento} className="recados__item">
-                <strong>{r.tipo_evento}</strong>: {r.descricao}{" "}
-                {r.data && `- Data: ${new Date(r.data).toLocaleDateString("pt-BR")}`}{" "}
-                {r.horario && `às ${r.horario.slice(0, 5)}`}{" "}
+            <li key={r.id_recado} className="recados__item">
+                <strong>{r.tipo_recado}</strong>: {r.descricao}{" "}
+                {r.data && (
+                  <>
+                    - Data: {new Date(r.data).toLocaleDateString("pt-BR")}{" "}
+                    às {new Date(r.data).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+                  </>
+                )}
                 {r.link_material && (
                 <a className="recados__link" href={r.link_material} target="_blank" rel="noreferrer">
                     Material

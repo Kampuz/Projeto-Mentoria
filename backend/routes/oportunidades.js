@@ -1,37 +1,52 @@
 import express from "express";
-import db from "../db.js"; 
+import db from "../db.js";
 
 const router = express.Router();
 
 // LISTAR
 router.get("/", async (req, res) => {
-    const [rows] = await db.query("SELECT * FROM oportunidades");
-    res.json(rows);
+    try {
+        const [rows] = await db.query("CALL sp_listar_oportunidades()");
+        res.json(rows[0]);
+    } catch (err) {
+        res.status(500).json({ erro: "Erro ao listar oportunidades" });
+    }
 });
 
-// ADICIONAR
+// CRIAR
 router.post("/", async (req, res) => {
     const { tipo, titulo, descricao, requisitos, data_publicacao, data_limite, link } = req.body;
 
-    await db.query(
-        "INSERT INTO oportunidades (tipo, titulo, descricao, requisitos, data_publicacao, data_limite, link) VALUES (?,?,?,?,?,?,?)",
-        [tipo, titulo, descricao, requisitos, data_publicacao, data_limite, link]
-    );
+    try {
+        await db.query("CALL sp_criar_oportunidade(?,?,?,?,?,?,?)", [
+            tipo,
+            titulo,
+            descricao,
+            requisitos,
+            data_publicacao,
+            data_limite,
+            link,
+        ]);
 
-    res.json({ message: "Oportunidade criada" });
+        res.json({ message: "Oportunidade criada" });
+    } catch (err) {
+        res.status(500).json({ erro: "Erro ao criar oportunidade" });
+    }
 });
 
+// INSCREVER-SE
 router.post("/:id/inscrever", async (req, res) => {
     try {
         const { id } = req.params;
         const { id_discente } = req.body;
 
-        await db.query(`
-            INSERT INTO oportunidades_inscritos (id_oportunidade, id_discente, data_inscricao)
-            VALUES (?, ?, CURDATE())
-        `, [id, id_discente]);
+        await db.query("CALL sp_inscrever_oportunidade(?,?)", [
+            id,
+            id_discente
+        ]);
 
         res.json({ mensagem: "Inscrição realizada com sucesso!" });
+
     } catch (err) {
         if (err.code === "ER_DUP_ENTRY") {
             return res.status(400).json({ mensagem: "Você já está inscrito nessa oportunidade." });
@@ -45,20 +60,32 @@ router.post("/:id/inscrever", async (req, res) => {
 router.put("/:id", async (req, res) => {
     const { tipo, titulo, descricao, requisitos, data_publicacao, data_limite, link } = req.body;
 
-    await db.query(
-        `UPDATE oportunidades 
-         SET tipo=?, titulo=?, descricao=?, requisitos=?, data_publicacao=?, data_limite=?, link=? 
-         WHERE id_oportunidade=?`,
-        [tipo, titulo, descricao, requisitos, data_publicacao, data_limite, link, req.params.id]
-    );
+    try {
+        await db.query("CALL sp_atualizar_oportunidade(?,?,?,?,?,?,?,?)", [
+            req.params.id,
+            tipo,
+            titulo,
+            descricao,
+            requisitos,
+            data_publicacao,
+            data_limite,
+            link,
+        ]);
 
-    res.json({ message: "Atualizado com sucesso" });
+        res.json({ message: "Atualizado com sucesso" });
+    } catch (err) {
+        res.status(500).json({ erro: "Erro ao atualizar oportunidade" });
+    }
 });
 
 // REMOVER
 router.delete("/:id", async (req, res) => {
-    await db.query("DELETE FROM oportunidades WHERE id_oportunidade=?", [req.params.id]);
-    res.json({ message: "Removido com sucesso" });
+    try {
+        await db.query("CALL sp_remover_oportunidade(?)", [req.params.id]);
+        res.json({ message: "Removido com sucesso" });
+    } catch (err) {
+        res.status(500).json({ erro: "Erro ao remover oportunidade" });
+    }
 });
 
 export default router;
